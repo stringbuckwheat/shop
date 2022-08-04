@@ -1,6 +1,7 @@
-<%@page import="dao.EmployeeDao"%>
+<%@page import="service.EmployeeService"%>
+<%@page import="repository.EmployeeDao"%>
 <%@page import="vo.Employee"%>
-<%@page import="dao.EmployeeDao"%>
+<%@page import="repository.EmployeeDao"%>
 <%@page import="vo.Employee"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -19,8 +20,8 @@ Employee employee = new Employee();
 employee.setEmployeeId(id);
 employee.setEmployeePass(pw);
 
-EmployeeDao employeeDao = new EmployeeDao();
-Employee loginEmployee = employeeDao.login(employee);
+EmployeeService employeeService = new EmployeeService();
+Employee loginEmployee = employeeService.getEmployeeByIdAndPw(employee);
 
 System.out.println("loginEmployee: " + loginEmployee);
 

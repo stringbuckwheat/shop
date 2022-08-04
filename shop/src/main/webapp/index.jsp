@@ -17,5 +17,6 @@
 	<%=session.getAttribute("name") %>
 	<br>
 	<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
+	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
 </body>
 </html>

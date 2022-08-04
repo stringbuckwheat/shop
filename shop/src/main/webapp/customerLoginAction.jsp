@@ -1,4 +1,5 @@
-<%@page import="dao.CustomerDao"%>
+<%@page import="service.CustomerService"%>
+<%@page import="repository.CustomerDao"%>
 <%@page import="vo.Customer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -19,11 +20,8 @@ customer.setCustomerPass(pw);
 
 System.out.println("customer: " + customer);
 
-CustomerDao customerDao = new CustomerDao();
-System.out.println("customerDao: " + customerDao);
-Customer loginCustomer = customerDao.login(customer);
-
-System.out.println("logincustomer: " + loginCustomer);
+CustomerService customerService = new CustomerService();
+Customer loginCustomer = customerService.getCustomerByIdAndPw(customer);
 
 // redirect
 if(loginCustomer == null){
