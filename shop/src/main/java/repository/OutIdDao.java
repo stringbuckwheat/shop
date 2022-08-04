@@ -13,16 +13,11 @@ public class OutIdDao {
 		
 		String sql = "insert into outid(out_id, out_date) values (?, now())";
 		
-		PreparedStatement stmt = null;
-
-		try {
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, id);
-			row = stmt.executeUpdate();
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		row = stmt.executeUpdate();
 			
-		} finally {
-			stmt.close();
-		}
+		stmt.close();
 
 		return row;
 	}

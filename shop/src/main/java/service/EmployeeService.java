@@ -46,15 +46,18 @@ public class EmployeeService {
 			conn = new DBUtil().getConnetion();
 			conn.setAutoCommit(false); // db 자동 커밋 해제 
 			
-			EmployeeDao employeeDao = new EmployeeDao();		
-			int deleteRow = employeeDao.deleteEmployee(conn, paramEmployee);
-			System.out.println("employee deleteRow: " + deleteRow);
+			EmployeeDao employeeDao = new EmployeeDao();	
+			
+			if(employeeDao.deleteEmployee(conn, paramEmployee) == 1) {
+				throw new Exception();
+			}
 			
 			OutIdDao outIdDao = new OutIdDao();
-			int insertRow = outIdDao.insertOutId(conn, paramEmployee.getEmployeeId());
-			System.out.println("employee insertRow: " + insertRow);
-
-			conn.commit(); // exception 발생 시 여기까지 내려오지 않음
+			
+			if(outIdDao.insertOutId(conn, paramEmployee.getEmployeeId()) != 1) {
+				throw new Exception();
+			}
+			conn.commit();
 		
 		} catch(Exception e) {
 			e.printStackTrace(); // *****

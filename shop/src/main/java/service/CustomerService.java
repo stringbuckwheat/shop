@@ -47,14 +47,18 @@ public class CustomerService {
 			conn = new DBUtil().getConnetion();
 			conn.setAutoCommit(false); // executeUpdate() 실행 시 자동 커밋 해제
 			
-			CustomerDao customerDao = new CustomerDao();		
-			int deleteRow = customerDao.deleteCustomer(conn, paramCustomer);
-			System.out.println("deleteRow: " + deleteRow);
+			CustomerDao customerDao = new CustomerDao();
+			
+			if(customerDao.deleteCustomer(conn, paramCustomer) == 1) {
+				throw new Exception(); // 오류는 발생하지 않았지만 삭제는 안 된 경우
+			}
 			
 			OutIdDao outIdDao = new OutIdDao();
-			int insertRow = outIdDao.insertOutId(conn, paramCustomer.getCustomerId());
-			System.out.println("insertRow: " + insertRow);
-
+			
+			if(outIdDao.insertOutId(conn, paramCustomer.getCustomerId()) != 1) {
+				throw new Exception(); // 마찬가지 
+			}
+			
 			conn.commit(); // exception 발생 시 내려오지 않음
 		
 		} catch(Exception e) {
