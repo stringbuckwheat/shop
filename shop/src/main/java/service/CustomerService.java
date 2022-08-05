@@ -8,16 +8,21 @@ import repository.OutIdDao;
 import vo.Customer;
 
 public class CustomerService {
-	// loginAction.jsp 호출
+	private CustomerDao customerDao;
+	private DBUtil dbUtil;
 	
+	public CustomerService() {
+		super();
+		this.customerDao = new CustomerDao();
+		this.dbUtil = new DBUtil();
+	}
+
 	public Customer getCustomerByIdAndPw(Customer paramCustomer) throws Exception{
 		Connection conn = null;
 		Customer customer = null;
 		
 		try {
-			conn = new DBUtil().getConnetion();
-
-			CustomerDao customerDao = new CustomerDao();
+			conn = dbUtil.getConnetion();
 			customer = customerDao.selectCustomerByIdAndPw(conn, paramCustomer);
 			
 			// 디버깅
@@ -44,11 +49,9 @@ public class CustomerService {
 		Connection conn = null;
 		
 		try {
-			conn = new DBUtil().getConnetion();
+			conn = dbUtil.getConnetion();
 			conn.setAutoCommit(false); // executeUpdate() 실행 시 자동 커밋 해제
-			
-			CustomerDao customerDao = new CustomerDao();
-			
+						
 			if(customerDao.deleteCustomer(conn, paramCustomer) == 1) {
 				throw new Exception(); // 오류는 발생하지 않았지만 삭제는 안 된 경우
 			}
@@ -82,4 +85,38 @@ public class CustomerService {
 		
 		return true;
 	} // end for removeCustomer
+	
+	public boolean addCustomer(Customer paramCustomer) {
+		Connection conn = null;
+		boolean result = true; // 메소드 실행 결과값을 담을 변수
+		
+		try {
+			conn = dbUtil.getConnetion();
+			conn.setAutoCommit(false);
+			
+			if(customerDao.insertCustomer(conn, paramCustomer) != 1) {
+				throw new Exception();
+			}
+			
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			result = false;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 }

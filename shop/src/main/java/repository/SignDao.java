@@ -36,46 +36,5 @@ public class SignDao {
 		return checkId;
 	}
 	
-	public int insertCustomer(Connection conn, Customer paramCustomer) throws Exception{
-		int row = 0;
-		
-		String sql = "insert into customer(customer_id, customer_pass, customer_name, customer_address, customer_telephone, update_date, create_date)"
-				+ "values(?, password(?), ?, ?, ?, now(), now())";
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, paramCustomer.getCustomerId());
-		stmt.setString(2, paramCustomer.getCustomerPass());
-		stmt.setString(3, paramCustomer.getCustomerName());
-		stmt.setString(4, paramCustomer.getCustomerAddress());
-		stmt.setString(5, paramCustomer.getCustomerTelephone());
-		
-		row = stmt.executeUpdate();
-		
-		if(stmt != null) {
-			stmt.close();
-		}
-		
-		return row;
-	}
 	
-	public int insertEmployee(Connection conn, Employee paramEmployee) throws Exception{
-		int row = 0;
-		
-		String sql = "insert into employee(employee_id, employee_pass, employee_name, update_date, create_date)"
-				+ "values(?, password(?), ?, now(), now())";
-		// active 기본값 'n'라서 아직 삭제 불가 
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, paramEmployee.getEmployeeId());
-		stmt.setString(2, paramEmployee.getEmployeePass());
-		stmt.setString(3, paramEmployee.getEmployeeName());
-		
-		row = stmt.executeUpdate();
-		
-		if(stmt != null) {
-			stmt.close();
-		}
-		
-		return row;
-	}
 }

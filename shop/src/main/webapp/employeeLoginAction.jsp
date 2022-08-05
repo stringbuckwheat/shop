@@ -31,7 +31,7 @@ if(loginEmployee == null){
 	return;
 }
 
-session.setAttribute("user", "employee");
+session.setAttribute("user", "Employee");
 session.setAttribute("id", loginEmployee.getEmployeeId());
 session.setAttribute("name", loginEmployee.getEmployeeName());
 

@@ -28,7 +28,7 @@ if(loginCustomer == null){
 	return;
 }
 
-session.setAttribute("user", "customer");
+session.setAttribute("user", "Customer");
 session.setAttribute("id", loginCustomer.getCustomerId());
 session.setAttribute("name", loginCustomer.getCustomerName());
 
