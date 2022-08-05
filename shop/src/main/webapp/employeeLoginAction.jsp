@@ -27,7 +27,7 @@ System.out.println("loginEmployee: " + loginEmployee);
 
 // redirect
 if(loginEmployee == null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errMsg=loginFail");
+	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=loginFail");
 	return;
 }
 

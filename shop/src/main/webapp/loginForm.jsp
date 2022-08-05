@@ -41,6 +41,7 @@ if(session.getAttribute("id") != null){
 				<button type="button" id="customerBtn">로그인</button>
 			</fieldset>
 		</form>
+		<a href="<%=request.getContextPath()%>/addCustomerForm.jsp">고객 회원가입</a>
 	</div>
 	<div>
 		<h1>staff</h1>
@@ -60,6 +61,7 @@ if(session.getAttribute("id") != null){
 				<button type="button" id="staffBtn">로그인</button>
 			</fieldset>
 		</form>
+		<a href="<%=request.getContextPath()%>/addEmployeeForm.jsp">직원 회원가입</a>
 	</div>
 </body>
 <script>

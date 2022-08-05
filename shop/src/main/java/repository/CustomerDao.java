@@ -60,5 +60,4 @@ public class CustomerDao {
 		
 		return row;
 	}
-	
 }
