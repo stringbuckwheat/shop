@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import vo.Customer;
 import vo.Employee;
 
+//TODO: try-finally
+
 public class SignDao {
 	
 	// return값이 boolean일 때의 문제점: DAO에서 데이터를 가공하는 것은 좋지 않음

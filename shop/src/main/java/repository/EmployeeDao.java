@@ -12,6 +12,7 @@ import vo.Board;
 import vo.Customer;
 import vo.Employee;
 
+//TODO: try-finally
 public class EmployeeDao {
 	public Employee selectEmployeeByIdAndPw(Connection conn, Employee employee) throws Exception{
 		Employee loginEmployee = null;

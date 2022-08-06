@@ -17,7 +17,7 @@ public class CustomerService {
 		this.dbUtil = new DBUtil();
 	}
 
-	public Customer getCustomerByIdAndPw(Customer paramCustomer) throws Exception{
+	public Customer getCustomerByIdAndPw(Customer paramCustomer){
 		Connection conn = null;
 		Customer customer = null;
 		

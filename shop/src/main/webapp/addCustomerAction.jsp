@@ -1,4 +1,4 @@
-<%@page import="service.SignService"%>
+<%@page import="service.CustomerService"%>
 <%@page import="vo.Customer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -16,9 +16,9 @@ customer.setCustomerTelephone(request.getParameter("customerTelephone"));
 System.out.println("customer: " + customer);
 
 // insert / redirection
-SignService signService = new SignService();
+CustomerService customerService = new CustomerService();
 
-if(!signService.addCustomer(customer)){
+if(!customerService.addCustomer(customer)){
 	response.sendRedirect(request.getContextPath() + "/addCustomerForm.jsp?errorMsg=sign up error");
 	return;
 }

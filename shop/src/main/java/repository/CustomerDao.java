@@ -5,6 +5,8 @@ import java.sql.*;
 import service.DBUtil;
 import vo.Customer;
 
+// TODO: try-finally
+
 public class CustomerDao {
 	// CustomerService가 호출
 	public Customer selectCustomerByIdAndPw(Connection conn, Customer customer) throws Exception{
@@ -23,6 +25,7 @@ public class CustomerDao {
 		// System.out.println("rs: " + rs);
 		
 		// 받아온 값이 없으면 return
+		// TODO
 		if(!rs.next()) 
 			return loginCustomer;
 		

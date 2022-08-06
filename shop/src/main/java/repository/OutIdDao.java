@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.*;
 
+//TODO: try-finally
 public class OutIdDao {
 	// 탈퇴 회원의 아이디 입력
 	public int insertOutId(Connection conn, String id) throws Exception {

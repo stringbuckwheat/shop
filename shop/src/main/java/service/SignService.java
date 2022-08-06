@@ -25,7 +25,7 @@ public class SignService {
 		Connection conn = null;
 
 		try {
-			conn = new DBUtil().getConnection();
+			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false); // 자동 커밋 막기
 			
 			System.out.println(id + " 입력 -> " + signDao.checkId(conn, id));

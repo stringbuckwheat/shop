@@ -179,11 +179,12 @@ public class EmployeeService {
 	
 	public int getLastPage(int rowPerPage) {
 		Connection conn = null;
-		int cnt = 0;
+		int lastPage = 0;
 		
 		try {
 			conn = dbUtil.getConnection();
-			cnt = employeeDao.countAllEmployee(conn);
+			int cnt = employeeDao.countAllEmployee(conn);
+			lastPage = (int) Math.ceil (cnt / (double)rowPerPage);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -196,7 +197,7 @@ public class EmployeeService {
 			}
 		}
 		
-		return (int) Math.ceil (cnt / (double)rowPerPage);
+		return lastPage;
 	}
 	
 }

@@ -1,4 +1,4 @@
-<%@page import="service.SignService"%>
+<%@page import="service.EmployeeService"%>
 <%@page import="vo.Employee"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
@@ -13,9 +13,9 @@ employee.setEmployeeName(request.getParameter("employeeName"));
 System.out.println("employee: " + employee);
 
 //insert / redirection
-SignService signService = new SignService();
+EmployeeService employeeService = new EmployeeService();
 
-if(!signService.addEmployee(employee)){
+if(!employeeService.addEmployee(employee)){
 	response.sendRedirect(request.getContextPath() + "/addEmployeeForm.jsp?errorMsg=sign up error");
 	return;
 }

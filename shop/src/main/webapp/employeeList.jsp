@@ -28,6 +28,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 </head>
 <body>
 	<table border="1">
+		<th>id</th>
+		<th>name</th>
+		<th>updateDate</th>
+		<th>createDate</th>
+		<th>active</th>
 		<%
 		for(Employee e : employeeList){
 		%>
