@@ -120,35 +120,4 @@ public class CustomerService {
 		return result;
 	}
 	
-	public int getLastPage(int rowPerPage) {
-		Connection conn = null;
-		int lastPage = 0;
-		
-		try {
-			conn = dbUtil.getConnection();
-			
-			lastPage = customerDao.countAllEmployee(conn);
-			}
-			
-			conn.commit();
-		} catch(Exception e) {
-			e.printStackTrace();
-			
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			result = false;
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return (int) Math.ceil (totalRow / (double)rowPerPage)
-	}
 }
