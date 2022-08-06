@@ -22,7 +22,7 @@ public class CustomerService {
 		Customer customer = null;
 		
 		try {
-			conn = dbUtil.getConnetion();
+			conn = dbUtil.getConnection();
 			customer = customerDao.selectCustomerByIdAndPw(conn, paramCustomer);
 			
 			// 디버깅
@@ -49,7 +49,7 @@ public class CustomerService {
 		Connection conn = null;
 		
 		try {
-			conn = dbUtil.getConnetion();
+			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false); // executeUpdate() 실행 시 자동 커밋 해제
 						
 			if(customerDao.deleteCustomer(conn, paramCustomer) == 1) {
@@ -91,7 +91,7 @@ public class CustomerService {
 		boolean result = true; // 메소드 실행 결과값을 담을 변수
 		
 		try {
-			conn = dbUtil.getConnetion();
+			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false);
 			
 			if(customerDao.insertCustomer(conn, paramCustomer) != 1) {
@@ -118,5 +118,37 @@ public class CustomerService {
 		}
 		
 		return result;
+	}
+	
+	public int getLastPage(int rowPerPage) {
+		Connection conn = null;
+		int lastPage = 0;
+		
+		try {
+			conn = dbUtil.getConnection();
+			
+			lastPage = customerDao.countAllEmployee(conn);
+			}
+			
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			result = false;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return (int) Math.ceil (totalRow / (double)rowPerPage)
 	}
 }

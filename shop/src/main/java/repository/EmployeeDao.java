@@ -62,8 +62,10 @@ public class EmployeeDao {
 	public List<Employee> selectEmployeeList(Connection conn, int rowPerPage, int beginRow) throws Exception{
 		ArrayList<Employee> employeeList = new ArrayList<>();
 		
-		String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee";
+		String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee limit ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
@@ -89,6 +91,35 @@ public class EmployeeDao {
 		return employeeList;
 	}
 	
+	public int countAllEmployee(Connection conn) throws Exception {
+		int lastPage = 0;
+		String sql = "SELECT COUNT(*) cnt FROM employee";
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+
+			if(rs.next()) {
+				lastPage = rs.getInt("cnt");
+			}
+			
+		} finally {
+			
+			if(rs != null) {
+				rs.close();
+			}
+			
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+				
+		return lastPage;
+	}
+	
 	public int insertEmployee(Connection conn, Employee paramEmployee) throws Exception{
 		int row = 0;
 		
@@ -103,6 +134,23 @@ public class EmployeeDao {
 		
 		row = stmt.executeUpdate();
 		
+		if(stmt != null) {
+			stmt.close();
+		}
+		
+		return row;
+	}
+	
+	public int updateEmployeeActive(Connection conn, Employee paramEmployee) throws Exception {
+		int row = -1;
+		String sql = "update employee set update_date = now(), active = ? WHERE employee_id = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, paramEmployee.getEmployeeActive());
+		stmt.setString(2, paramEmployee.getEmployeeId());
+		
+		row = stmt.executeUpdate();
+
 		if(stmt != null) {
 			stmt.close();
 		}

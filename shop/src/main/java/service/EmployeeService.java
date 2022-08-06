@@ -24,7 +24,7 @@ public class EmployeeService {
 		Connection conn = null;
 		
 		try {
-			conn = new DBUtil().getConnetion();
+			conn = new DBUtil().getConnection();
 			conn.setAutoCommit(false);
 			
 			if(employeeDao.insertEmployee(conn, paramEmployee) != 1) {
@@ -59,7 +59,7 @@ public class EmployeeService {
 		Employee employee = null;
 		
 		try {
-			conn = new DBUtil().getConnetion();
+			conn = new DBUtil().getConnection();
 			employee = employeeDao.selectEmployeeByIdAndPw(conn, paramEmployee);
 			
 			// 디버깅
@@ -85,7 +85,7 @@ public class EmployeeService {
 		Connection conn = null;
 		
 		try {
-			conn = new DBUtil().getConnetion();
+			conn = new DBUtil().getConnection();
 			conn.setAutoCommit(false); // db 자동 커밋 해제 
 			
 			if(employeeDao.deleteEmployee(conn, paramEmployee) == 1) {
@@ -121,7 +121,7 @@ public class EmployeeService {
 		return true;
 	} // end for removeEmployee
 	
-	
+	// adminindex -> employeeList 구하기
 	public List<Employee> getEmployeeList(int rowPerPage, int currentPage){
 		List<Employee> employeeList = null;
 		Connection conn = null;
@@ -129,28 +129,13 @@ public class EmployeeService {
 		// beginRow 구하기 
 		int beginRow = (currentPage - 1) * rowPerPage;
 		
-		// EmployeeDao.selectEmployeeList(int rowPerPage, int beginRow)
+		// EmployeeDao.selectEmployeeList(conn, int rowPerPage, int beginRow)
 		try {
-			conn = dbUtil.getConnetion();
-			employeeDao.selectEmployeeList(conn, rowPerPage, beginRow);
-
-			/*
-			 * if (signDao.checkId(conn, id) == null) {
-				result = true;
-			}
-			*/
-
-			conn.commit(); // select인데도..?
+			conn = dbUtil.getConnection();
+			employeeList = employeeDao.selectEmployeeList(conn, rowPerPage, beginRow);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
-			try { 
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-
 		} finally {
 			try {
 				conn.close();
@@ -161,4 +146,57 @@ public class EmployeeService {
 		
 		return employeeList;
 	}
+	
+	public void modifyEmployeeActive(Employee paramEmployee) {
+		Connection conn = null;
+		
+		try {
+			conn = dbUtil.getConnection();
+			conn.setAutoCommit(false); // 자동 커밋 막기
+			
+			if(employeeDao.updateEmployeeActive(conn, paramEmployee) == 1) {
+				System.out.println("employeeDao.updateEmployeeActive 메소드 성공!");
+			}
+			
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public int getLastPage(int rowPerPage) {
+		Connection conn = null;
+		int cnt = 0;
+		
+		try {
+			conn = dbUtil.getConnection();
+			cnt = employeeDao.countAllEmployee(conn);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return (int) Math.ceil (cnt / (double)rowPerPage);
+	}
+	
 }

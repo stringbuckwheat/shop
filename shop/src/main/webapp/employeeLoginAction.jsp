@@ -1,8 +1,6 @@
 <%@page import="service.EmployeeService"%>
 <%@page import="repository.EmployeeDao"%>
 <%@page import="vo.Employee"%>
-<%@page import="repository.EmployeeDao"%>
-<%@page import="vo.Employee"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
