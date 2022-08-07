@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%
+// 로그인 한 사람
+if(session.getAttribute("id") != null){
+	response.sendRedirect(request.getContextPath() + "/index.jsp?errorMsg=already logined");
+	return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -24,7 +24,7 @@ Customer loginCustomer = customerService.getCustomerByIdAndPw(customer);
 
 // redirect
 if(loginCustomer == null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errMsg=loginFail");
+	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errMsg=loginFail");
 	return;
 }
 

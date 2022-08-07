@@ -62,33 +62,37 @@ public class EmployeeDao {
 	
 	public List<Employee> selectEmployeeList(Connection conn, int rowPerPage, int beginRow) throws Exception{
 		ArrayList<Employee> employeeList = new ArrayList<>();
+		ResultSet rs =  null;
+		PreparedStatement stmt = null;
 		
-		String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee limit ?,?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
-		
-		while(rs.next()) {
-			Employee e = new Employee();
-			e.setEmployeeId(rs.getString("employeeId"));
-			e.setEmployeePass(rs.getString("employeePw"));
-			e.setEmployeeName(rs.getString("employeeName"));
-			e.setUpdateDate(rs.getString("updateDate"));
-			e.setCreateDate(rs.getString("createDate"));
-			e.setEmployeeActive(rs.getString("active"));
+		try {
+			String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee limit ?,?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+			rs = stmt.executeQuery();
 			
-			employeeList.add(e);
-		}
+			while(rs.next()) {
+				Employee e = new Employee();
+				e.setEmployeeId(rs.getString("employeeId"));
+				e.setEmployeePass(rs.getString("employeePw"));
+				e.setEmployeeName(rs.getString("employeeName"));
+				e.setUpdateDate(rs.getString("updateDate"));
+				e.setCreateDate(rs.getString("createDate"));
+				e.setEmployeeActive(rs.getString("active"));
+				
+				employeeList.add(e);
+			}
 		
-		if(rs != null) {
-			rs.close();
+		} finally {
+			if(rs != null) {
+				rs.close();
+			}
+			
+			if(stmt != null) {
+				stmt.close();
+			}
 		}
-		
-		if(stmt != null) {
-			stmt.close();
-		}
-		
 		return employeeList;
 	}
 	

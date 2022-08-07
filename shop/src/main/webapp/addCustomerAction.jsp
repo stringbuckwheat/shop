@@ -3,6 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+// 로그인 되어 있는 사람
+if(session.getAttribute("id") != null){
+	response.sendRedirect(request.getContextPath() + "/index.jsp?errorMsg=already logined");
+	return;
+}
+
 request.setCharacterEncoding("utf-8");
 
 // 인스턴스
@@ -23,5 +29,5 @@ if(!customerService.addCustomer(customer)){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp");
 %>

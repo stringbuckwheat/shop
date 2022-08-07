@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-// 로그인 한 사람만 입장 가능
+
 if(session.getAttribute("id") == null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=Login needed");
 	return;
 }
 
@@ -19,21 +19,22 @@ adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Insert title here</title>
+<title>Index</title>
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<%@include file="/header.jsp" %>
+	<%@include file="/header.jsp"%>
 	<%=session.getAttribute("user")%>
 	<br>
-	<%=session.getAttribute("id") %>
+	<%=session.getAttribute("id")%>
 	<br>
-	<%=session.getAttribute("name") %>
+	<%=session.getAttribute("name")%>
 	<br>
 	<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
 	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+	
 	<%
 	if("Employee".equals(session.getAttribute("user"))){
 	%>
@@ -41,6 +42,7 @@ adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지
 	<%
 	}
 	%>
+	
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.js"></script>
 <script src="js/bootstrap.min.js"></script>

@@ -10,8 +10,8 @@ if(session.getAttribute("id") != null){
 }
 
 request.setCharacterEncoding("utf-8");
-String id = request.getParameter("staffId");
-String pw = request.getParameter("staffPass");
+String id = request.getParameter("employeeId");
+String pw = request.getParameter("employeePass");
 
 // 인스턴스 세팅
 Employee employee = new Employee();

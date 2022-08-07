@@ -1,18 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
 
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-between">
 				<div class="col">
-					<a class="navbar-brand" href="index.html">Papermag <span>Magazine</span></a>
+					<a class="navbar-brand" href="index.html">stringbuckwheat<span>shop</span></a>
 				</div>
 				<div class="col d-flex justify-content-end">
 					<div class="social-media">
 		    		<p class="mb-0 d-flex">
+		    		
+		    		<%
+		    		if(session.getAttribute("id") != null){
+		    		%>
+		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-unlock"><i class="sr-only">logout</i></span></a>
+	    			<%
+	    			} else {
+	    			%>
 		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-lock"><i class="sr-only">login</i></span></a>
 		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-plus"><i class="sr-only">sign up</i></span></a>
+		    		<%
+	    			}
+		    		%>
 		    		</p>
 	        </div>
 				</div>
