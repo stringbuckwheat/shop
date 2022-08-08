@@ -15,6 +15,7 @@ import vo.Employee;
 //TODO: try-finally
 public class EmployeeDao {
 	public Employee selectEmployeeByIdAndPw(Connection conn, Employee employee) throws Exception{
+		//TODO 메소드 고치기 
 		Employee loginEmployee = null;
 		
 		PreparedStatement stmt = null;

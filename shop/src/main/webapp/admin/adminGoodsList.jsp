@@ -46,91 +46,93 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 
 <%@include file="../header.jsp"%>
 	<div class="container">
-	    <div class="row col-md-8 col-md-offset-2 custyle">
-
-	<table class="table table-striped custab">
-	    <thead>
-			<tr>
-				<th>goods_no</th>
-				<th>goods_name</th>
-				<th>goods_price</th>
-				<th>create_date</th>
-				<th>update_date</th>
-				<th>sold_out</th>
-			</tr>
-		</thead>
-		
-		<%
-		for(Goods g : goodsList){
-		%>
-			<tr>
-				<td><%=g.getGoodsNo()%></td>
-				<td><%=g.getGoodsName()%></td>
-				<td><%=g.getGoodsPrice()%></td>
-				<td><%=g.getCreateDate()%></td>
-				<td><%=g.getUpdateDate()%></td>
-				<td><%=g.getSoldOut()%></td>
-				<td>
-					<form action="<%=request.getContextPath()%>/modifySoldOutActiveAction.jsp" method="post">
-						<input type="hidden" name="goodsNo" value="<%=g.getGoodsNo()%>">
-						<input type="hidden" name="preSoldOutValue" value="<%=g.getSoldOut()%>">
-				        <select name="active">
-							<%
-								if(g.getSoldOut().equals("N")){
-							%>
-								<option value="Y">Y</option>
-								<option selected=“selected” value="N">N</option>
-							<%
-							} else {
-							%>
-								<option value="N">N</option>
-								<option selected=“selected” value="Y">Y</option>
-							<%
-							}
-							%>
-						</select>
-						<button type="submit" class='btn btn-info btn-xs'>수정</button>
-					</form>
-				</td>
-			</tr>
-		<%
-			}
-		%>
-	</table>
-	<div class="container">
-		<ul class="pagination">
-			<%	
-			// 이전 페이징
-			if(pageBegin > rowPerPage){
-			%>
-				<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>">이전</a></li>
-			<%
-			}
-			// 숫자 페이징
-			for(int i = pageBegin; i <= pageEnd; i++){
-			%>			
-			  <li class="page-item">
-			  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=i%>">
-			  		<%=i%>
-			  	</a>
-			  </li>
-		  <%
-			}
+	    <div class="row col-md-12 col-md-offset-1 custyle">
+		<table class="table table-striped custab">
+		    <thead>
+				<tr>
+					<th>goods_no</th>
+					<th>goods_name</th>
+					<th>goods_price</th>
+					<th>create_date</th>
+					<th>update_date</th>
+					<th>sold_out</th>
+				</tr>
+			</thead>
 			
-			// 다음 페이징
-			if(pageEnd < lastPage){
-			%>
-			  	<li class="page-item">
-				  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>">
-				  		다음
-				  	</a>
-			  	</li>
 			<%
-			}
+			for(Goods g : goodsList){
 			%>
-		</ul>
+				<tr>
+					<td><%=g.getGoodsNo()%></td>
+					<td><a href="<%=request.getContextPath()%>/admin/goodsAndImgOne.jsp?goodsNo=<%=g.getGoodsNo()%>"><%=g.getGoodsName()%></a></td>
+					<td><%=g.getGoodsPrice()%></td>
+					<td><%=g.getCreateDate()%></td>
+					<td><%=g.getUpdateDate()%></td>
+					<td><%=g.getSoldOut()%></td>
+					<td>
+						<form action="<%=request.getContextPath()%>/modifySoldOutActiveAction.jsp" method="post">
+							<input type="hidden" name="goodsNo" value="<%=g.getGoodsNo()%>">
+							<input type="hidden" name="preSoldOutValue" value="<%=g.getSoldOut()%>">
+					        <select name="active">
+								<%
+									if(g.getSoldOut().equals("N")){
+								%>
+									<option value="Y">Y</option>
+									<option selected=“selected” value="N">N</option>
+								<%
+								} else {
+								%>
+									<option value="N">N</option>
+									<option selected=“selected” value="Y">Y</option>
+								<%
+								}
+								%>
+							</select>
+							<button type="submit" class='btn btn-info btn-xs'>수정</button>
+						</form>
+					</td>
+				</tr>
+			<%
+				}
+			%>
+		</table>
+
+	<div class="container" >
+		<div style="justify-content:center">
+			<ul class="pagination">
+				<%	
+				// 이전 페이징
+				if(pageBegin > rowPerPage){
+				%>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>">이전</a></li>
+				<%
+				}
+				// 숫자 페이징
+				for(int i = pageBegin; i <= pageEnd; i++){
+				%>			
+				  <li class="page-item">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=i%>">
+				  		<%=i%>
+				  	</a>
+				  </li>
+			  <%
+				}
+				
+				// 다음 페이징
+				if(pageEnd < lastPage){
+				%>
+				  	<li class="page-item">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>">
+					  		다음
+					  	</a>
+				  	</li>
+				<%
+				}
+				%>
+			</ul>
+		</div>
 	</div>
-	</div>
+</div>
 </div>
 </body>
 </html>

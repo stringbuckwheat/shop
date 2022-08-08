@@ -3,6 +3,8 @@ package service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+
 import repository.GoodsDao;
 import vo.Goods;
 
@@ -15,6 +17,29 @@ public class GoodsService {
 		super();
 		this.goodsDao = new GoodsDao();
 		this.dbUtil = new DBUtil();
+	}
+	
+	public Map<String, Object> getGoodsAndImgOne(int goodsNo){
+		Map<String, Object> goodsAndImgOne = null;
+		Connection conn = null;
+		
+		try {
+			conn = dbUtil.getConnection();
+			goodsAndImgOne = goodsDao.selectGoodsAndImgOne(conn, goodsNo);
+			System.out.println("getGoodsAndImgOne: " + goodsAndImgOne);
+		
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return goodsAndImgOne;
 	}
 
 	public List<Goods> getGoodsListByPage(int rowPerPage, int currentPage){

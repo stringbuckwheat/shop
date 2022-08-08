@@ -1,8 +1,6 @@
 package repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.*;
 
 import vo.Goods;
@@ -75,8 +73,51 @@ public class GoodsDao {
 				
 		return lastPage;
 	}
+
 	
 	
-	
-	// 상품 입력과 상품 이미지 입력이 동시에 이루어져야 함 - 트랜잭션 필요 
+	// 상품 입력과 상품 이미지 입력이 동시에 이루어져야 함 - 트랜잭션 필요
+	// join을 할 때는 부모테이블(왼쪽 테이블) DAO에 두기
+	// 모든 상품 혹은 검색 리스트를 반환하려면 - List<Map<String, Object>> list
+	public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws Exception{
+		// 자바 타입 중 가장 익명객체와 비슷한 타입 => map
+		Map<String, Object> goodsAndImgOne = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, "
+				+ "g.update_date goodsUpdateDate, g.sold_out soldOut, gi.filename filename, gi.origin_filename originFilename, gi.content_type contentType " 
+				+ "from goods g inner join goods_img gi on g.goods_no = gi.goods_no where g.goods_no = ?";
+
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, goodsNo);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				goodsAndImgOne = new HashMap<>();
+				
+				goodsAndImgOne.put("goodsNo", rs.getInt("goodsNo"));
+				goodsAndImgOne.put("goodsName", rs.getString("goodsName"));
+				goodsAndImgOne.put("goodsPrice", rs.getInt("goodsPrice"));
+				goodsAndImgOne.put("createDate", rs.getString("createDate"));
+				goodsAndImgOne.put("goodsUpdateDate", rs.getString("goodsUpdateDate"));
+				goodsAndImgOne.put("soldOut", rs.getString("soldOut"));
+				goodsAndImgOne.put("filename", rs.getString("filename"));
+				goodsAndImgOne.put("originFilename", rs.getString("originFilename"));
+				
+			}
+
+		} finally {
+			if(rs != null) {
+				rs.close();
+			}
+			
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return goodsAndImgOne;
+	}
 }
