@@ -66,7 +66,7 @@ public class EmployeeDao {
 		PreparedStatement stmt = null;
 		
 		try {
-			String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee limit ?,?";
+			String sql = "select employee_id employeeId, employee_pass employeePw, employee_name employeeName, update_date updateDate, create_date createDate, active from employee order by create_date desc limit ?,?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
