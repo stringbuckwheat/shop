@@ -41,7 +41,7 @@ System.out.println(goodsAndImgOne.values());
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5 custyle">
-					<img src="<%=request.getContextPath()%>/upload/<%=goodsAndImgOne.get("originFilename")%>">
+					<img src="<%=request.getContextPath()%>/upload/<%=goodsAndImgOne.get("originFilename")%>"  width="400" height="330">
 				</div>
 				<div class="col-md-7 custyle">
 					<table class="table table-striped custab">
@@ -49,10 +49,10 @@ System.out.println(goodsAndImgOne.values());
 							<%
 							for(Map.Entry<String, Object> e : goodsAndImgOne.entrySet()){				
 							%>
-							<tr>
-								<th><%=e.getKey()%></th>
-								<td><%=e.getValue()%></td>
-							</tr>
+								<tr>
+									<th><%=e.getKey()%></th>
+									<td><%=e.getValue()%></td>
+								</tr>	
 							<%
 							}
 							%>

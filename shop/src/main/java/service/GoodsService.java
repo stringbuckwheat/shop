@@ -28,10 +28,10 @@ public class GoodsService {
 			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false);
 			
-			
 			goodsNo = goodsDao.insertGoods(conn, goods);
-			// 방금 insert한 goods_no 리턴
-			System.out.println("goodsDao.insertGoods: " + goodsNo);
+			// 방금 insert한 goods_no 리턴 -> action의 redirection에 씀
+
+			System.out.println("goodsDao.insertGoods(): " + goodsNo);
 			
 			if(goodsNo != 0) { // goods insert에 성공한 경우
 				goodsImg.setGoodsNo(goodsNo);
@@ -49,7 +49,7 @@ public class GoodsService {
 			conn.commit();
 			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {

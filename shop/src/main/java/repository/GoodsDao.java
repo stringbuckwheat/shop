@@ -10,8 +10,8 @@ public class GoodsDao {
 	public int insertGoods(Connection conn, Goods goods) throws Exception {
 		// row가 아니라 방금 입력한 goods_no(value)를 return -> jdbc 메소드 이용
 		int goodsNo = 0;
-		String sql = "insert into goods(goods_name, goods_price, update_date, create_date)"
-				+ " values (?, ?, now(), now())";
+		String sql = "insert into goods(goods_name, goods_price, sold_out, update_date, create_date)"
+				+ " values (?, ?, ?, now(), now())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		// RETURN_GENERATED_KEYS == 1 --> 두 번의 쿼리 실행
@@ -20,12 +20,14 @@ public class GoodsDao {
 		
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
+		stmt.setString(3, goods.getSoldOut());
 		
 		stmt.executeUpdate(); // insert 
 		ResultSet rs = stmt.getGeneratedKeys(); // return 값 
 		
 		if(rs.next()) {
-			goodsNo = rs.getInt(1); 
+			goodsNo = rs.getInt(1);
+			System.out.println("GoodsDao.insertGoods: "+ goodsNo);
 			// getGeneratedKeys가 반환하는 컬럼명을 알 순 없지만
 			// 첫번째라는 것은 알 수 있으므로 rs.getInt(1)
 		}

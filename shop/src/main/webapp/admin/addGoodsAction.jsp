@@ -55,7 +55,7 @@ GoodsService goodsService = new GoodsService();
 int goodsNo = goodsService.addGoods(goods, goodsImg);
 
 if(goodsNo == 0){
-	// 파일 삭제
+	// db insert 실패 시 파일 삭제
 	File f = new File(dir + "/" + fileName);
 	
 	if(f.exists()){
