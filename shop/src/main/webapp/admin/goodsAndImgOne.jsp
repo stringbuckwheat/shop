@@ -3,19 +3,23 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-//TODO: 세선 유효성 검사
+// 세션 유효성 검사
+if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
+	// customer로 로그인한 사람은 loginForm -> index 
+	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	return;
+}
 
 int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 
 GoodsService goodsService = new GoodsService();
 Map<String, Object> goodsAndImgOne = goodsService.getGoodsAndImgOne(goodsNo);
 
-// [goodsNo, originFilename, filename, goodsUpdateDate, goodsPrice, goodsName, soldOut, createDate]
-System.out.println(goodsAndImgOne.keySet());
-System.out.println(goodsAndImgOne.values());
-
 //수정 폼 만들어야 할 수도 있으니까 일단 저장
 Set<String> theadSet = goodsAndImgOne.keySet();
+//[goodsNo, originFilename, filename, goodsUpdateDate, goodsPrice, goodsName, soldOut, createDate]
+System.out.println(theadSet);
+System.out.println(goodsAndImgOne.values());
 
 %>
 
@@ -33,7 +37,7 @@ Set<String> theadSet = goodsAndImgOne.keySet();
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<%@include file="../header.jsp"%>
+	<%@include file="/header.jsp"%>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5 custyle">

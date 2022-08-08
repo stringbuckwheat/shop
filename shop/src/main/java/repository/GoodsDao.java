@@ -6,6 +6,42 @@ import java.util.*;
 import vo.Goods;
 
 public class GoodsDao {
+	
+	public int insertGoods(Connection conn, Goods goods) throws Exception {
+		// row가 아니라 방금 입력한 goods_no(value)를 return -> jdbc 메소드 이용
+		int goodsNo = 0;
+		String sql = "insert into goods(goods_name, goods_price, update_date, create_date)"
+				+ " values (?, ?, now(), now())";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		// RETURN_GENERATED_KEYS == 1 --> 두 번의 쿼리 실행
+		// 1) insert 
+		// 2) select last_ai_key from table
+		
+		stmt.setString(1, goods.getGoodsName());
+		stmt.setInt(2, goods.getGoodsPrice());
+		
+		stmt.executeUpdate(); // insert 
+		ResultSet rs = stmt.getGeneratedKeys(); // return 값 
+		
+		if(rs.next()) {
+			goodsNo = rs.getInt(1); 
+			// getGeneratedKeys가 반환하는 컬럼명을 알 순 없지만
+			// 첫번째라는 것은 알 수 있으므로 rs.getInt(1)
+		}
+		
+		if(rs != null) {
+			rs.close();
+		}
+		
+		if(stmt != null) {
+			stmt.close();
+		}
+		
+		return goodsNo;
+	}
+	
+	
 	public List<Goods> selectGoodsListByPage(Connection conn, int rowPerPage, int beginRow) throws Exception{
 		ArrayList<Goods> goodsList = new ArrayList<>();
 		String sql = "select goods_no goodsNo, goods_name goodsName, goods_price goodsPrice, update_date updateDate, create_date createDate, sold_out soldOut" 
