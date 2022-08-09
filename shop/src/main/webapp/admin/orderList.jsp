@@ -30,49 +30,39 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>orders list</title>
-<link rel="stylesheet" href="../css/style.css">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>orders list</title>
+	<link rel="stylesheet" href="../css/style.css">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-12 col-md-offset-1 custyle">
 			<table class="table table-striped custab">
-			    <thead>
+				<thead>
 			    	<tr>
-				    	<%
-				    	for(String title : orderList.get(0).keySet()){
-				    	%>
+				    	<%for(String title : orderList.get(0).keySet()){%>
 					    	<th><%=title%></th>
-				    	<%
-				    	}
-				    	%>
+				    	<%}%>
 			    	</tr>
 			    </thead>
 			    <tbody>
 			    	<%
 					// list 안 에 들어있는 Map의 value를 순회...
 					for(Map<String, Object> m : orderList){
-						%>
+					%>
 						<tr>
-							<%
-							for(Object data : m.values()){
-								%>
+							<%for(Object data : m.values()){%>
 								<td><%=data%></td>
-								<%
-							}
-							%>
+							<%}%>
 						</tr>
-						<%
-						}
-						%>
+					<%}%>
 			    </tbody>
 			</table>
 		</div>

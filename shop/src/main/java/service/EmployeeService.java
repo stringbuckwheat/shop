@@ -59,7 +59,7 @@ public class EmployeeService {
 		Employee employee = null;
 		
 		try {
-			conn = new DBUtil().getConnection();
+			conn = dbUtil.getConnection();
 			employee = employeeDao.selectEmployeeByIdAndPw(conn, paramEmployee);
 			
 			// 디버깅

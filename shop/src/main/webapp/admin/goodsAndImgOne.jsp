@@ -38,28 +38,28 @@ System.out.println(goodsAndImgOne.values());
 </head>
 <body>
 	<%@include file="/header.jsp"%>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-5 custyle">
-					<img src="<%=request.getContextPath()%>/upload/<%=goodsAndImgOne.get("originFilename")%>"  width="400" height="330">
-				</div>
-				<div class="col-md-7 custyle">
-					<table class="table table-striped custab">
-						
-							<%
-							for(Map.Entry<String, Object> e : goodsAndImgOne.entrySet()){				
-							%>
-								<tr>
-									<th><%=e.getKey()%></th>
-									<td><%=e.getValue()%></td>
-								</tr>	
-							<%
-							}
-							%>
-						
-					</table>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 custyle">
+				<img src="<%=request.getContextPath()%>/upload/<%=goodsAndImgOne.get("originFilename")%>"  width="400" height="330">
+			</div>
+			<div class="col-md-7 custyle">
+				<table class="table table-striped custab">
+					
+						<%
+						for(Map.Entry<String, Object> e : goodsAndImgOne.entrySet()){				
+						%>
+							<tr>
+								<th><%=e.getKey()%></th>
+								<td><%=e.getValue()%></td>
+							</tr>	
+						<%
+						}
+						%>
+					
+				</table>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

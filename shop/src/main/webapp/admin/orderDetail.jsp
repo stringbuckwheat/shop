@@ -13,6 +13,8 @@ int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 //public Map<String, Object> getOrderDetail(String customerId, int orderNo){
 OrdersService ordersService = new OrdersService();
 Map<String, Object> order = ordersService.getOrderDetail(orderNo);
+
+System.out.println(order);
 %>
 
 <!DOCTYPE html>
@@ -32,30 +34,13 @@ Map<String, Object> order = ordersService.getOrderDetail(orderNo);
 	<%@include file="/header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-12 col-md-offset-1 custyle">
-		    <h1><%=customerId%>님의 주문</h1>
 			<table class="table table-striped custab">
-			    <thead>
-			    	<tr>
-				    	<%
-				    	for(String title : order.keySet()){
-				    	%>
-					    	<th><%=title%></th>
-				    	<%
-				    	}
-				    	%>
-			    	</tr>
-			    </thead>
-			    <tbody>
-			    <tr>
-			    	<%
-					for(Object data : order.values()){
-						%>
-								<td><%=data%></td>
-								<%
-							}
-							%>
-						</tr>
-			    </tbody>
+				<%for(Map.Entry<String, Object> data : order.entrySet()){%>
+				<tr>
+					<th><%=data.getKey()%></th>
+					<td><%=data.getValue()%></td>
+				</tr>
+				<%}%>					
 			</table>
 		</div>
 	</div>

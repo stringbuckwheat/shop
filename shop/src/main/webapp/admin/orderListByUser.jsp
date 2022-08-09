@@ -50,31 +50,19 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 			<table class="table table-striped custab">
 			    <thead>
 			    	<tr>
-				    	<%
-				    	for(String title : orderList.get(0).keySet()){
-				    	%>
+				    	<%for(String title : orderList.get(0).keySet()){%>
 					    	<th><%=title%></th>
-				    	<%
-				    	}
-				    	%>
+				    	<%}%>
 			    	</tr>
 			    </thead>
 			    <tbody>
-			    	<%
-					for(Map<String, Object> m : orderList){
-						%>
+			    	<%for(Map<String, Object> m : orderList){%>
 						<tr>
-							<%
-							for(Object data : m.values()){
-								%>
+							<%for(Object data : m.values()){%>
 								<td><%=data%></td>
-								<%
-							}
-							%>
+							<%}%>
 						</tr>
-						<%
-						}
-						%>
+						<%}%>
 			    </tbody>
 			</table>
 		</div>
