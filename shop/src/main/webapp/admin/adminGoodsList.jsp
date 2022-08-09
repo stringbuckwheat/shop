@@ -25,6 +25,8 @@ int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 
+
+
 %>
 
 <!DOCTYPE html>
