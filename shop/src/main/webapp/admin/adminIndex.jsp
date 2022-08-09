@@ -30,17 +30,15 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	    <div class="row col-md-12 col-md-offset-1 custyle">
 		<div>
 			<ul>
-				<li><a href="<%=request.getContextPath()%>/employeeList.jsp">사원관리</a></li>
+				<li><a href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a></li>
 				<li><a href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a></li> <!-- 상품목록/등록/수정(품절)/삭제(장바구니, 주문이 없는 경우) -->
-				<li><a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">고객관리</a></li> <!-- 주문목록 / 수정 -->
-				<li><a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">주문관리</a></li> <!-- 고객목록 / 강제 탈퇴 / 비밀번호 수정(전달 구현 X) -->
+				<li><a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a></li> <!-- 주문목록 / 수정 -->
+				<li><a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a></li> <!-- 고객목록 / 강제 탈퇴 / 비밀번호 수정(전달 구현 X) -->
 				<li><a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a></li> <!-- 공지 CRUD -->
 			</ul>
 		</div>
 		
 		<h1>상품 관리</h1>
-		
-		
 		
 				<div id="home_quicklinks">
                     <a class="quicklink link1" href="<%=request.getContextPath()%>/admin/employeeList.jsp">
