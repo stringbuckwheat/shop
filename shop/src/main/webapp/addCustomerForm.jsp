@@ -12,7 +12,7 @@ if(session.getAttribute("id") != null){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>addCustomer</title>
+<title>add Customer</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -23,45 +23,16 @@ if(session.getAttribute("id") != null){
 			<%
 		}
 	%>
-	<!-- id check form -->
-	<form action="<%=request.getContextPath()%>/idCheckAction.jsp" method="post">
-		<input type="hidden" name="membership" value="Customer">
-		<table border="1">
-			<tr>
-				<td>id 중복 체크</td>
-				<td>
-					<input type="text" name="inputId" id="inputId">
-				</td>
-			</tr>
-		</table>
-		<button type="submit">입력</button>
-	</form>
 	
-	<!-- 고객가입 form -->
-	<%
-		String inputId = ""; // 빈 문자열
-		if(request.getParameter("inputId") != null){
-			inputId = request.getParameter("inputId");
-		}
-		
-		/*
-		private String customerId;
-		private String customerPass;
-		private String customerName;
-		private String customerAddress;
-		private String customerTelephone; //// 여기까지
-		private String customerUpdateDate;
-		private String customerCreateDate;
-	*/
-	%>
+	<input type="text" name="inputId" id="inputId">
+	<button type="button" id="idckBtn">아이디 중복 검사</button>
 	
 	<form id="customerForm" action="<%=request.getContextPath()%>/addCustomerAction.jsp" method="post">
 		<table border="1">
 			<tr>
 				<td>customer id</td>
 				<td>
-					<input type="text" name="customerId" id="customerId" 
-						readonly="readonly" value="<%=inputId%>">
+					<input type="text" name="customerId" id="customerId" readonly="readonly">
 				</td>
 			</tr>
 			<tr>
@@ -93,6 +64,28 @@ if(session.getAttribute("id") != null){
 	</form>
 </body>
 <script>
+	$('#idckBtn').click(function() {
+		if($('#inputId').val().length < 4) {
+			alert('id는 4자이상!');
+		} else {
+			// 비동기 호출	
+			$.ajax({
+				url : '/ajax-test/idckController',
+				type : 'post',
+				data : {idck : $('#inputId').val()},
+				success : function(json) {
+					// alert(json);
+					if(json == 'y') {
+						$('#customerId').val($('#inputId').val());
+					} else {
+						alert('이미 사용중인 아이디 입니다.');
+						$('#customerId').val('');
+					}
+				}
+			});
+		}
+	});
+
 	// 고객 빈칸검사
 	$('#customerBtn').click(function(){		
 		if($('#customerId').val() == ''){

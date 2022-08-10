@@ -114,4 +114,28 @@ public class OrdersService {
 		
 		return orderDetail;
 	}
+	
+	public void modifyOrderState(String orderState, int orderNo) {
+		Connection conn = null;
+		
+		try {
+			conn = dbUtil.getConnection();
+			conn.setAutoCommit(false); // 자동 커밋 막기
+			
+			ordersDao.updateOrderState(conn, orderState, orderNo);
+			
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+
+		} finally {
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
 }

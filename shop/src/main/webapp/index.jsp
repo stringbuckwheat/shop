@@ -38,7 +38,7 @@ adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지
 	<%
 	if("Employee".equals(session.getAttribute("user"))){
 	%>
-		<a href="<%=request.getContextPath()%>/adminIndex.jsp">관리자 페이지</a>
+		<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
 	<%
 	}
 	%>

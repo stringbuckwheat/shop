@@ -26,6 +26,6 @@ if(!employeeService.addEmployee(employee)){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp");
 
 %>

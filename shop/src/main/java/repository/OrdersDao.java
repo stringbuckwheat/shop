@@ -9,12 +9,14 @@ public class OrdersDao {
 		// null이 아니라 size가 0인 리스트를 리턴
 		List<Map<String, Object>> orderList = new ArrayList<>(); // 다형성
 		
-		String sql = "select o.order_no orderNo, g.goods_no goodsNo, c.customer_id customerId,"
-				+ " o.order_quantity orderQuantity, o.order_state orderState, o.update_date updateDate,"
-				+ " o.create_date createDate, o.order_price orderPrice, o.order_address orderAddress"
+		// orders + goods + customer
+		String sql = "select o.order_no orderNo, c.customer_id customerId, c.customer_name customerName" 
+				+ ", g.goods_name goodsName, o.order_quantity orderQuantity, o.order_state orderState"
+				+ ", o.order_price orderPrice, o.order_address orderAddress"
+				+ ", o.update_date updateDate, o.create_date createDate"
 				+ " from orders o inner join goods g on g.goods_no = o.goods_no"
 				+ " inner join customer c on o.customer_id = c.customer_id"
-				+ " order by o.create_date desc limit ?,?";
+				+ " order by o.create_date desc limit ?, ?";
 		
 		ResultSet rs =  null;
 		PreparedStatement stmt = null;
@@ -202,5 +204,25 @@ public class OrdersDao {
 		}
 		
 		return map;
+	}
+	
+	public int updateOrderState(Connection conn, String orderState, int orderNo) throws SQLException {
+		int row = 0;
+		PreparedStatement stmt = null;
+		String sql = "update orders set update_date = now(), order_state = ? where order_no = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, orderState);
+			stmt.setInt(2, orderNo);
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return row;
 	}
 }

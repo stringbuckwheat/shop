@@ -45,7 +45,6 @@ System.out.println(goodsAndImgOne.values());
 			</div>
 			<div class="col-md-7 custyle">
 				<table class="table table-striped custab">
-					
 						<%
 						for(Map.Entry<String, Object> e : goodsAndImgOne.entrySet()){				
 						%>
@@ -56,7 +55,6 @@ System.out.println(goodsAndImgOne.values());
 						<%
 						}
 						%>
-					
 				</table>
 			</div>
 		</div>
