@@ -8,68 +8,87 @@ if(session.getAttribute("id") != null){
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>add employee form</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>add employee form</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="css/loginForm.css" rel="stylesheet">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-<%
-	if(request.getParameter("errorMsg") != null){
-		%>
-		<span><%=request.getParameter("errorMsg")%></span>
-		<%
-	}
-%>
-<input type="text" name="inputId" id="inputId">
-<button type="button" id="idckBtn">아이디 중복 검사</button>
-
-<form id="employeeForm" action="<%=request.getContextPath()%>/addEmployeeAction.jsp" method="post">
-		<table border="1">
-			<tr>
-				<td>employee id</td>
-				<td>
-					<input type="text" name="employeeId" id="employeeId" readonly="readonly">
-					<button type="button" id="idckBtn">아이디 중복 검사</button>
-				</td>
-			</tr>
-			<tr>
-				<td>employee password</td>
-				<td>
-					<input type="password" name="employeePass" id="employeePass">
-				</td>
-			</tr>
-			<tr>
-				<td>employee name</td>
-				<td>
-					<input type="text" name="employeeName" id="employeeName">
-				</td>
-			</tr>
-		</table>
-		<button type="button" id="employeeBtn">제출</button>
-	</form>
+	<%@include file="/header.jsp"%>
+	<div id="LoginForm">
+		<div class="container">
+			<div class="login-form">
+				<div class="main-div">
+				   <div class="panel">
+					   <h2>관리자 회원 가입</h2>
+						<%
+							if(request.getParameter("errorMsg") != null){
+								%>
+								<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
+								<%
+							}
+						%>
+						<div>
+							<form>
+								<div class="form-group">
+									<input type="text" class="form-control" name="inputId" id="inputId" placeholder="아이디를 입력하세요">
+								</div>
+								<button type="button" class="btn btn-primary" id="idckBtn">아이디 중복 검사</button>
+							</form>
+						</div>
+						
+						<br>
+						
+						<form id="employeeForm" action="<%=request.getContextPath()%>/addEmployeeAction.jsp" method="post">
+							<div class="form-group">
+				        		<input type="text" class="form-control" name="employeeId" id="employeeId" readonly="readonly">
+					        </div>
+					        <div class="form-group">
+					            <input type="password" class="form-control" name="employeePass" id="employeePass" placeholder="비밀번호를 입력하세요">
+					        </div>
+					        <div class="form-group">
+					            <input type="text" class="form-control" name="employeeName" id="employeeName" placeholder="이름을 입력하세요">
+					        </div>
+					        <button type="button" class="btn btn-primary" id="employeeBtn">가입</button>
+						 </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 <script>
 	// ajax
 	$('#idckBtn').click(function() {
 		if($('#inputId').val().length < 4) {
 			alert('id는 4자이상!');
-		} else {
-			// 비동기 호출	
-			$.ajax({
-				url : '/ajax-test/idckController',
-				type : 'post',
-				data : {idck : $('#inputId').val()},
-				success : function(json) {
-					// alert(json);
-					if(json == 'y') {
-						$('#employeeId').val($('#inputId').val());
-					} else {
-						alert('이미 사용중인 아이디 입니다.');
-						$('#employeeId').val('');
-					}
-				}
-			});
+			return;
 		}
+		
+		// 비동기 호출	
+		$.ajax({
+			url : '/ajax-test/idckController',
+			type : 'post',
+			data : {idck : $('#inputId').val()},
+			success : function(json) {
+				// alert(json);
+				if(json == 'y') {
+					$('#employeeId').val($('#inputId').val());
+					return;
+				}
+				
+				alert('이미 사용중인 아이디 입니다.');
+				$('#employeeId').val('');
+			} // end for success
+		}); // end for ajax
 	});
 
 	// 빈칸검사
@@ -78,6 +97,8 @@ if(session.getAttribute("id") != null){
 			alert('아이디를 입력하세요');
 		} else if($('#employeePass').val() == ''){
 			alert('패스워드를 입력하세요');
+		} else if($('#employeeName').val() == ''){
+			alert('이름을 입력하세요');
 		} else {
 			$('#employeeForm').submit();
 		}
