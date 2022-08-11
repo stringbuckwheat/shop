@@ -40,7 +40,7 @@ if("customer".equals(user)){
 
 // 탈퇴 성공 시 logout으로 세션 정리한 다음 loginForm으로
 // 실패 시 index로
-String url = result ? "/logout.jsp" :  "/index.jsp?errorMsg=resign membership failed"; 
+String url = result ? "/logout.jsp" :  "/index.jsp?errorMsg=can't delete your account"; 
 
 response.sendRedirect(request.getContextPath() + url);
 %>

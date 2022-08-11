@@ -2,6 +2,8 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import repository.CustomerDao;
 import repository.OutIdDao;
@@ -118,6 +120,14 @@ public class CustomerService {
 		}
 		
 		return result;
+	}
+	
+	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage){
+		List<Map<String, Object>> customerGoodsList = null;
+		
+		// GoodsDao
+		// beginRow 구하기
+		return customerGoodsList;
 	}
 	
 }

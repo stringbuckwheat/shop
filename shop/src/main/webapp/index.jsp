@@ -2,7 +2,7 @@
 <%
 
 if(session.getAttribute("id") == null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=Login needed");
+	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=Login needed");
 	return;
 }
 
@@ -20,20 +20,35 @@ adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Index</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
-	<%=session.getAttribute("user")%>
-	<br>
-	<%=session.getAttribute("id")%>
-	<br>
-	<%=session.getAttribute("name")%>
-	<br>
-	<a href="<%=request.getContextPath()%>/logout.jsp">로그아웃</a>
-	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+	
+	<%
+	if(request.getParameter("errorMsg") != null){
+	%>
+		<div>
+			<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
+		</div>
+	<%
+	}
+	%>
+	<div>
+		<%=session.getAttribute("user")%>
+		<br>
+		<%=session.getAttribute("id")%>
+		<br>
+		<%=session.getAttribute("name")%>
+		<br>
+		<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+	</div>
 	
 	<%
 	if("Employee".equals(session.getAttribute("user"))){

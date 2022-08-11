@@ -29,5 +29,10 @@ if(!customerService.addCustomer(customer)){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp");
+// 세션에 저장해서 index로
+session.setAttribute("user", "Customer");
+session.setAttribute("loginid", request.getParameter("customerId"));
+session.setAttribute("name", request.getParameter("customerName"));
+
+response.sendRedirect(request.getContextPath() + "/index.jsp");
 %>

@@ -28,8 +28,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 Set<String> titleSet = orderList.get(0).keySet();
 System.out.println(titleSet);
 // [order_no, goods_no, order_quantity, order_address, order_price, customer_id, create_date, order_state, update_date]
-		
-String[] titles = {};
+
 %>
 
 <!DOCTYPE html>
@@ -52,8 +51,8 @@ String[] titles = {};
 			<table class="table table-striped custab">
 				<thead>
 			    	<tr>
-				    	<%for(String title : titleSet){%>
-					    	<th><%=title%></th><!-- 나중에 <a> 붙여서 정렬 -->
+				    	<%for(String title : titleSet){%>	
+					    <th><%=title%></th><!-- 나중에 <a> 붙여서 정렬 -->
 				    	<%}%>
 			    	</tr>
 			    </thead>

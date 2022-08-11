@@ -7,7 +7,7 @@
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
 	// TODO 에러메시지도 같이 넘기기 
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 

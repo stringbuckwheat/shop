@@ -126,6 +126,7 @@ public class GoodsService {
 			lastPage = (int) Math.ceil(cnt / (double) rowPerPage);
 
 		} catch (Exception e) {
+
 			e.printStackTrace();
 
 		} finally {
@@ -138,5 +139,30 @@ public class GoodsService {
 
 		return lastPage;
 	}
-
+	
+	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage) throws SQLException {			
+		Connection conn = null;
+		List<Map<String, Object>> list = null;
+		
+		try {
+			
+			conn = dbUtil.getConnection();
+			int beginRow = (currentPage - 1) * rowPerPage;
+			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
 }

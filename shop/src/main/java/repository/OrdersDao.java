@@ -44,7 +44,7 @@ public class OrdersDao {
 					}
 					
 					m.put(tmp, rs.getString(rsmd.getColumnName(i)));
-				}				
+				}			
 				
 				orderList.add(m);
 			}
@@ -154,7 +154,6 @@ public class OrdersDao {
 	
 	// 5-2) 주문 상세보기
 	public Map<String, Object> selectOrderOne(Connection conn, int orderNo) throws SQLException{
-		// customerId는 어디에 쓰는가?
 		Map<String, Object> map = null;
 		
 		String sql = "select o.order_no orderNo, g.goods_no goodsNo, o.customer_id customerId, o.order_quantity orderQuantity, o.order_state orderState, o.update_date updateDate, o.create_date createDate, o.order_price orderPrice, o.order_address orderAddress "

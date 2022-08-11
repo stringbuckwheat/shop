@@ -26,6 +26,10 @@ if(!employeeService.addEmployee(employee)){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp");
+// session에 저장해서 index.jsp로
+session.setAttribute("user", "Employee");
+session.setAttribute("id", request.getParameter("employeeId"));
+session.setAttribute("name", request.getParameter("employeeName"));
 
+response.sendRedirect(request.getContextPath() + "/index.jsp");
 %>

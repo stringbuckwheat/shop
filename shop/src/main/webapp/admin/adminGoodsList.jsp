@@ -3,6 +3,7 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){	
 	// customer로 로그인한 사람은 loginForm -> index 
 	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
@@ -25,26 +26,24 @@ int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 
-
-
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>admin goods list</title>
-<link rel="stylesheet" href="../css/style.css">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta charse t="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>admin goods list</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
-
-<%@include file="../header.jsp"%>
+	<%@include file="/header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-12 col-md-offset-1 custyle">
 		<table class="table table-striped custab">
@@ -104,14 +103,14 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				// 이전 페이징
 				if(pageBegin > rowPerPage){
 				%>
-					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>">이전</a></li>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>">이전</a></li>
 				<%
 				}
 				// 숫자 페이징
 				for(int i = pageBegin; i <= pageEnd; i++){
 				%>			
 				  <li class="page-item">
-				  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=i%>">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp?currentPage=<%=i%>">
 				  		<%=i%>
 				  	</a>
 				  </li>
@@ -122,7 +121,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				if(pageEnd < lastPage){
 				%>
 				  	<li class="page-item">
-					  	<a class="page-link" href="<%=request.getContextPath()%>/adminGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>">
 					  		다음
 					  	</a>
 				  	</li>

@@ -9,22 +9,34 @@
 				</div>
 				<div class="col d-flex justify-content-end">
 					<div class="social-media">
-		    		<p class="mb-0 d-flex">
-		    		
-		    		<%
-		    		if(session.getAttribute("id") != null){
-		    		%>
-		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-unlock"><i class="sr-only">logout</i></span></a>
-	    			<%
-	    			} else {
-	    			%>
-		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-lock"><i class="sr-only">login</i></span></a>
-		    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-plus"><i class="sr-only">sign up</i></span></a>
-		    		<%
-	    			}
-		    		%>
-		    		</p>
-	        </div>
+			    		<p class="mb-0 d-flex">
+			    		
+			    		<%
+			    		if(session.getAttribute("id") != null){
+			    		%>
+			    			<a href="<%=request.getContextPath()%>/logout.jsp" class="d-flex align-items-center justify-content-center">
+			    				<span class="fa fa-unlock">
+			    					<i class="sr-only">logout</i>
+			    				</span>
+			    			</a>
+		    			<%
+		    			} else {
+		    			%>
+			    			<a href="<%=request.getContextPath()%>/customerLoginForm.jsp" class="d-flex align-items-center justify-content-center">
+			    				<span class="fa fa-lock">
+			    					<i class="sr-only">login</i>
+			    				</span>
+			    			</a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center">
+			    				<span class="fa fa-plus">
+			    					<i class="sr-only">sign up</i>
+			    				</span>
+			    			</a>
+			    		<%
+		    			}
+			    		%>
+			    		</p>
+	       			</div>
 				</div>
 			</div>
 		</div>
