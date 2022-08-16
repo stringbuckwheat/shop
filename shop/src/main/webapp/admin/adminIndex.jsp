@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-// 세선 유효성 검정 코드 
+// 세션 유효성 검정 코드 
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
 	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");

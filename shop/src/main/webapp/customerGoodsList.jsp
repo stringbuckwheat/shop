@@ -4,7 +4,7 @@
 <%
 // Controller: java class <- Servlet
 
-int rowPerPage = 20;
+int rowPerPage = 10;
 
 if(request.getParameter("rowPerPage") != null){
 	rowPerPage = Integer.parseInt(request.getParameter("rowPerPage")); // 20개씩 보기, 30개씩 보기
@@ -18,9 +18,14 @@ if(request.getParameter("currentPage") != null){
 GoodsService goodsService = new GoodsService();
 List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage);
 
-System.out.println(customerGoodsList);
-
+System.out.println("jsp: " + customerGoodsList);
+System.out.println("customerGoodsList.size: " + customerGoodsList.size());
 // 분리하면 servlet / 연결기술 forward(request, response) - include와 비슷 / jsp
+
+int lastPage = goodsService.getLastPage(rowPerPage);
+int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
+int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
+pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 %>
 
 <!-- VIEW: 태그 -->
@@ -49,52 +54,21 @@ System.out.println(customerGoodsList);
 		<a href="">높은가격순</a>
 		<a href="">최신순</a>
 	</div>
-	<table>
-		<tr>
-			<%
-				int i = 1;
-			
-				for(Map<String, Object> m : customerGoodsList){
-					%>
-					<td>
-						<div>
-							<a href="#"><!-- 상세 페이지 -->
-								<img src='<%=request.getContextPath()%>/upload/<%=m.get("filename")%>' width="200" height="200">
-							</a>
-						</div>
-						<div><%=m.get("goodsName")%></div>
-						<div><%=m.get("goodsPrice")%></div>
-						<!-- 리뷰 개수 -->
-					</td>
-					<%
-					if(i%4 == 0){
-					%>
-		                  </tr><tr>
-		            <%
-					}
-					i++;
-				}
-				
-				int tdCnt = 4 - (customerGoodsList.size() % 4);
-				tdCnt %= 4; // 나눠 떨어질 때 처리
-				
-				for(int j = 0; j<tdCnt; j++){
-				%>
-		               <td>&nbsp;</td>
-		        <%
-				}
-			%>
-		</tr>
-	</table>
+	
+	<form action="<%=request.getContextPath()%>/customerGoodsList.jsp" method="get">
+		<select name="rowPerPage">
+			<option value="20">20개 씩 보기</option>
+			<option value="40">40개 씩 보기</option>
+		</select>
+		<button type="submit">확인</button>
+	</form>
 	
 	<div class="container">
     <h3 class="h3">shopping Demo-2 </h3>
     <div class="row">
     	<!-- 카드 -->
     	
-		<%
-		// int i = 1;
-	
+		<%	
 		for(Map<String, Object> m : customerGoodsList){
 		%>
     	
@@ -105,29 +79,55 @@ System.out.println(customerGoodsList);
                         <img class="pic-1" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                         <img class="pic-2" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                     </a>
-                    <ul class="social">
-                        <li><a href="#" data-tip="Quick View"><i class="fa fa-eye"></i></a></li>
-                        <li><a href="#" data-tip="Add to Wishlist"><i class="fa fa-shopping-bag"></i></a></li>
-                        <li><a href="#" data-tip="Add to Cart"><i class="fa fa-shopping-cart"></i></a></li>
-                    </ul>
-                    <a class="add-to-cart" href="">Add to cart</a>
+                    <a class="add-to-cart" href="#">Add to cart</a>
                 </div>
                 <div class="product-content">
                     <h3 class="title"><a href="#"><%=m.get("goodsName")%></a></h3>
                     <span class="price"><%=m.get("goodsPrice")%></span>
                 </div>
-            </div>
-        </div>
+            </div> <!-- for grid2 -->
+        </div><!-- for col -->
        <!--end -->
        <%
 		}
        %>
        <!-- here -->
-       
     </div>
-</div>
-<hr>
-	
-	<!--페이징 + 상품검색 -->
+
+		<div class="container">
+			<ul class="pagination">
+				<%	
+				// 이전 페이징
+				if(pageBegin > rowPerPage){
+				%>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>">이전</a></li>
+				<%
+				}
+				
+				// 숫자 페이징
+				for(int i = pageBegin; i <= pageEnd; i++){
+				%>			
+				  <li class="page-item">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>">
+				  		<%=i%>
+				  	</a>
+				  </li>
+			  	<%
+				}
+				
+				// 다음 페이징
+				if(pageEnd < lastPage){
+				%>
+				  	<li class="page-item">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>">
+					  		다음
+					  	</a>
+				  	</li>
+				<%
+				}
+				%>
+		</ul>
+	</div>
+	</div>
 </body>
 </html>

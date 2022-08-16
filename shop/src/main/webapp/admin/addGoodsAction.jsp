@@ -7,6 +7,12 @@
 <%@ page import="vo.GoodsImg"%>
 
 <%
+if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
+	// customer로 로그인한 사람은 loginForm -> index 
+	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");
+	return;
+}
+
 String dir = request.getServletContext().getRealPath("/upload");
 int max = 10 * 1024 * 1024; // 10mb
 MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());

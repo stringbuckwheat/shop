@@ -162,14 +162,18 @@ public class GoodsDao {
 		// 고객 상품리스트 페이지에서 사용
 		public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow) throws SQLException {			
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-			String sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.update_date updateDate, g.create_date createDate, g.sold_out soldOut"
-					+ ", o.order_no orderNo, o.order_quantity orderQuantity, o.order_state orderState, o.order_price orderPrice, o.order_address orderAddress"
-					+ ", gi.filename, gi.origin_filename originFilename"
-					+ ", ifnull(sum(order_quantity), 0) sumNum"
-					+ " from orders o left join goods g on g.goods_no = o.goods_no"
-					+ " inner join goods_img gi on g.goods_no = gi.goods_no"
-					+ " group by o.goods_no"
-					+ " order by ifnull(sum(order_quantity), 0) desc limit ?, ?";
+//			String sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.update_date updateDate, g.create_date createDate, g.sold_out soldOut"
+//					+ ", o.order_no orderNo, o.order_quantity orderQuantity, o.order_state orderState, o.order_price orderPrice, o.order_address orderAddress"
+//					+ ", gi.filename, gi.origin_filename originFilename"
+//					+ ", ifnull(sum(order_quantity), 0) sumNum"
+//					+ " from orders o left join goods g on g.goods_no = o.goods_no"
+//					+ " inner join goods_img gi on g.goods_no = gi.goods_no"
+//					+ " group by o.goods_no"
+//					+ " order by ifnull(sum(order_quantity), 0) desc limit ?, ?";
+			
+			String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename " 
+					+ " FROM goods g"
+					+ " INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.create_date desc limit ?, ?";
 			
 			System.out.println(sql);
 			
@@ -191,7 +195,7 @@ public class GoodsDao {
 				while (rs.next()) {
 					Map<String, Object> m = new HashMap<>();
 					
-					for(int i=1 ; i<=columnCnt; i++){
+					for(int i = 1 ; i <= columnCnt; i++){
 						String tmp = rsmd.getColumnLabel(i);
 						
 						// getInt, getString 분기 -- 타입 검사 메소드
@@ -217,6 +221,7 @@ public class GoodsDao {
 				}
 			}
 			
+			System.out.println(list);
 			return list;
 		}
 	

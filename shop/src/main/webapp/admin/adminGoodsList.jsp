@@ -95,7 +95,9 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				}
 			%>
 		</table>
-
+		<div class="container text-right">
+				<a href="<%=request.getContextPath()%>/admin/addGoodsForm.jsp" class="btn btn-warning">상품 등록</a>
+		</div>
 	<div class="container" >
 		<div style="justify-content:center">
 			<ul class="pagination">
@@ -133,5 +135,6 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	</div>
 </div>
 </div>
+
 </body>
 </html>
