@@ -15,6 +15,8 @@ Employee employee = new Employee();
 employee.setEmployeeId(request.getParameter("employeeId"));
 employee.setEmployeePass(request.getParameter("employeePass"));
 employee.setEmployeeName(request.getParameter("employeeName"));
+employee.setEmployeeAddress(request.getParameter("employeeAddress"));
+employee.setEmployeeDetailAddress(request.getParameter("employeeDetailAddress"));
 
 System.out.println("employee: " + employee);
 

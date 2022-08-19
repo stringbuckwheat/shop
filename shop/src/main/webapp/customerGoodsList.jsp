@@ -4,7 +4,12 @@
 <%
 // Controller: java class <- Servlet
 
-int rowPerPage = 10;
+int rowPerPage = 20;
+
+String sortBy = "new"; // default값 최신순
+if(request.getParameter("sortBy") != null){
+	sortBy = request.getParameter("sortBy"); // 20개씩 보기, 30개씩 보기
+}
 
 if(request.getParameter("rowPerPage") != null){
 	rowPerPage = Integer.parseInt(request.getParameter("rowPerPage")); // 20개씩 보기, 30개씩 보기
@@ -16,7 +21,7 @@ if(request.getParameter("currentPage") != null){
 }
 
 GoodsService goodsService = new GoodsService();
-List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage);
+List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy);
 
 System.out.println("jsp: " + customerGoodsList);
 System.out.println("customerGoodsList.size: " + customerGoodsList.size());
@@ -48,11 +53,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	<%@include file="/header.jsp"%>
 	<!-- for / if 대체 기술: custom tag(JSTL 라이브러리, EL) -->
 	<div>
-		<a href="">인기순</a> <!-- 조회수? -->
-		<a href="">판매량순</a> <!-- default 메소드 값 -->
-		<a href="">낮은가격순</a>
-		<a href="">높은가격순</a>
-		<a href="">최신순</a>
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=popular">인기순</a> <!-- 조회수? -->
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=sales">판매량순</a> 
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=lowPrice">낮은가격순</a>
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=highPrice">높은가격순</a>
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=new">최신순</a> <!-- 기본값 -->
 	</div>
 	
 	<form action="<%=request.getContextPath()%>/customerGoodsList.jsp" method="get">
@@ -100,7 +105,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				// 이전 페이징
 				if(pageBegin > rowPerPage){
 				%>
-					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>">이전</a></li>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">이전</a></li>
 				<%
 				}
 				
@@ -108,7 +113,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				for(int i = pageBegin; i <= pageEnd; i++){
 				%>			
 				  <li class="page-item">
-				  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
 				  		<%=i%>
 				  	</a>
 				  </li>
@@ -119,7 +124,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				if(pageEnd < lastPage){
 				%>
 				  	<li class="page-item">
-					  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/customerGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
 					  		다음
 					  	</a>
 				  	</li>

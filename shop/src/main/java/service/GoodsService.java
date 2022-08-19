@@ -20,7 +20,10 @@ public class GoodsService {
 		this.dbUtil = new DBUtil();
 	}
 
+	// 상품 추가 메소드 -> goods, goodsImg 테이블 트랜잭션
 	public int addGoods(Goods goods, GoodsImg goodsImg) {
+		System.out.println("------------------------------ GoodsService.addGoods()");
+
 		int goodsNo = 0;
 		Connection conn = null;
 		
@@ -31,7 +34,7 @@ public class GoodsService {
 			goodsNo = goodsDao.insertGoods(conn, goods);
 			// 방금 insert한 goods_no 리턴 -> action의 redirection에 씀
 
-			System.out.println("goodsDao.insertGoods(): " + goodsNo);
+			System.out.println("goodsDao.insertGoods(): !0 -> " + goodsNo);
 			
 			if(goodsNo != 0) { // goods insert에 성공한 경우
 				goodsImg.setGoodsNo(goodsNo);
@@ -39,7 +42,7 @@ public class GoodsService {
 				
 				if(goodsImgDao.insertGoodsImg(conn, goodsImg) == 0) {
 					goodsNo = 0; // 실패 시 goodsNo 다시 0
-					System.out.println("goodsImgDao.insertGoods: " + goodsNo);
+					System.out.println("goodsImgDao.insertGoods: !0 -> " + goodsNo);
 
 					throw new Exception();
 					// 이미지 입력 실패 시 catch 절로 이동 -> rollBack
@@ -67,7 +70,10 @@ public class GoodsService {
 		return goodsNo;
 	}
 
+	// 상품 상세보기
 	public Map<String, Object> getGoodsAndImgOne(int goodsNo) {
+		System.out.println("------------------------------ GoodsService.getGoodsAndImgOne()");
+
 		Map<String, Object> goodsAndImgOne = null;
 		Connection conn = null;
 
@@ -90,16 +96,20 @@ public class GoodsService {
 		return goodsAndImgOne;
 	}
 
+	// admin goods list + beginRow 구해서 DAO로 넘겨줌
 	public List<Goods> getGoodsListByPage(int rowPerPage, int currentPage) {
+		System.out.println("------------------------------ GoodsService.getGoodsListByPage()");
+
 		List<Goods> goodsList = null;
 		Connection conn = null;
 
+		// 시작할 행 구하기
 		int beginRow = (currentPage - 1) * rowPerPage;
 
 		try {
 			conn = dbUtil.getConnection();
 			goodsList = goodsDao.selectGoodsListByPage(conn, rowPerPage, beginRow);
-			System.out.println("Goods Service: " + goodsList);
+			System.out.println("goodsList.size: " + goodsList.size());
 
 		} catch (Exception e) {
 
@@ -116,7 +126,10 @@ public class GoodsService {
 		return goodsList;
 	}
 
+	// 페이징 용도
 	public int getLastPage(int rowPerPage) {
+		System.out.println("------------------------------ GoodsService.getLastPage()");
+
 		Connection conn = null;
 		int lastPage = 0;
 
@@ -140,15 +153,18 @@ public class GoodsService {
 		return lastPage;
 	}
 	
-	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage) throws SQLException {			
+	// 고객 상품 리스트 + beginRow 넘겨주기
+	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage, String sortBy) throws SQLException {
+		System.out.println("------------------------------ GoodsService.getCustomerGoodsListByPage()");
+
 		Connection conn = null;
 		List<Map<String, Object>> list = null;
 		
 		try {
-			
+
 			conn = dbUtil.getConnection();
 			int beginRow = (currentPage - 1) * rowPerPage;
-			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow);
+			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, sortBy);
 			
 		} catch(Exception e) {
 			

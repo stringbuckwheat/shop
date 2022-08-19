@@ -3,13 +3,9 @@ package repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import service.DBUtil;
-import vo.Board;
-import vo.Customer;
 import vo.Employee;
 
 //TODO: try-finally
@@ -129,14 +125,15 @@ public class EmployeeDao {
 	public int insertEmployee(Connection conn, Employee paramEmployee) throws Exception{
 		int row = 0;
 		
-		String sql = "insert into employee(employee_id, employee_pass, employee_name, update_date, create_date)"
-				+ "values(?, password(?), ?, now(), now())";
-		// active 기본값 'n'라서 아직 삭제 불가
+		String sql = "insert into employee(employee_id, employee_pass, employee_name, employee_address, employee_detail_address, update_date, create_date)"
+				+ "values(?, password(?), ?, ?, ?, now(), now())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, paramEmployee.getEmployeeId());
 		stmt.setString(2, paramEmployee.getEmployeePass());
 		stmt.setString(3, paramEmployee.getEmployeeName());
+		stmt.setString(4, paramEmployee.getEmployeeAddress());
+		stmt.setString(5, paramEmployee.getEmployeeDetailAddress());
 		
 		row = stmt.executeUpdate();
 		

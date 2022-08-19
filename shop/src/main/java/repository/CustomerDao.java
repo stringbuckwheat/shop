@@ -2,7 +2,6 @@ package repository;
 
 import java.sql.*;
 
-import service.DBUtil;
 import vo.Customer;
 
 // TODO: try-finally
@@ -65,15 +64,16 @@ public class CustomerDao {
 	public int insertCustomer(Connection conn, Customer paramCustomer) throws Exception{
 		int row = 0;
 		
-		String sql = "insert into customer(customer_id, customer_pass, customer_name, customer_address, customer_telephone, update_date, create_date)"
-				+ "values(?, password(?), ?, ?, ?, now(), now())";
+		String sql = "insert into customer(customer_id, customer_pass, customer_name, customer_address, customer_detail_address, customer_telephone, update_date, create_date)"
+				+ "values(?, password(?), ?, ?, ?, ?, now(), now())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, paramCustomer.getCustomerId());
 		stmt.setString(2, paramCustomer.getCustomerPass());
 		stmt.setString(3, paramCustomer.getCustomerName());
 		stmt.setString(4, paramCustomer.getCustomerAddress());
-		stmt.setString(5, paramCustomer.getCustomerTelephone());
+		stmt.setString(5, paramCustomer.getCustomerDetailAddress());
+		stmt.setString(6, paramCustomer.getCustomerTelephone());
 		
 		row = stmt.executeUpdate();
 		

@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import vo.Customer;
-import vo.Employee;
-
 //TODO: try-finally
 
 public class SignDao {

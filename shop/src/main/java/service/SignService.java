@@ -2,11 +2,8 @@ package service;
 
 import java.sql.*;
 
-import repository.CustomerDao;
-import repository.EmployeeDao;
 import repository.SignDao;
-import vo.Customer;
-import vo.Employee;
+
 
 public class SignService {
 	private SignDao signDao;

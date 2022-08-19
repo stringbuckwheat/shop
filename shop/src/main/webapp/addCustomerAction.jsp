@@ -16,7 +16,8 @@ Customer customer = new Customer();
 customer.setCustomerId(request.getParameter("customerId"));
 customer.setCustomerPass(request.getParameter("customerPass"));
 customer.setCustomerName(request.getParameter("customerName"));
-customer.setCustomerAddress(request.getParameter("customerAddress"));
+customer.setCustomerAddress(request.getParameter("customerAddress")); // api 주소
+customer.setCustomerDetailAddress(request.getParameter("customerDetailAddress")); // 상세 주소
 customer.setCustomerTelephone(request.getParameter("customerTelephone"));
 
 System.out.println("customer: " + customer);
