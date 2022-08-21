@@ -29,7 +29,7 @@ System.out.println(goodsAndImgOne.values());
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>goodsAndImgOne</title>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -57,7 +57,6 @@ System.out.println(goodsAndImgOne.values());
 						%>
 				</table>
 			</div>
-			<a href="<%=request.getContextPath()%>/admin/addGoodsForm.jsp">ㅁㅈㄷ랴 ㅓㅁ재ㅑㄷㅎ래ㅑㅁ조대ㅑ호;ㅐㅑㅁ졷</a>
 		</div>
 	</div>
 </body>

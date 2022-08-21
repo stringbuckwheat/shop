@@ -3,7 +3,7 @@
 <%@page import="service.EmployeeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-//로그인 한 사람만 입장 가능
+// 세션 유효성 검사
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
 	// TODO 에러메시지도 같이 넘기기 
@@ -34,7 +34,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>사원 목록</title>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -42,7 +42,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<%@include file="../header.jsp"%>
+	<%@include file="/header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-8 col-md-offset-2 custyle">
 		<table class="table table-striped custab">

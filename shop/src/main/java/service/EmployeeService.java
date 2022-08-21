@@ -11,20 +11,17 @@ import vo.Employee;
 public class EmployeeService {
 	private DBUtil dbUtil;
 	private EmployeeDao employeeDao;
-	
-	public EmployeeService() {
-		super();
-		this.dbUtil = new DBUtil();
-		this.employeeDao = new EmployeeDao();
-	}
 
 	public boolean addEmployee(Employee paramEmployee) {
 		boolean result = true; // 메소드 실행 결과값을 담을 변수
 		Connection conn = null;
 		
 		try {
-			conn = new DBUtil().getConnection();
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false);
+			
+			this.employeeDao = new EmployeeDao();
 			
 			if(employeeDao.insertEmployee(conn, paramEmployee) != 1) {
 				throw new Exception();
@@ -58,7 +55,10 @@ public class EmployeeService {
 		Employee employee = null;
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.employeeDao = new EmployeeDao();
 			employee = employeeDao.selectEmployeeByIdAndPw(conn, paramEmployee);
 			
 			// 디버깅
@@ -84,9 +84,12 @@ public class EmployeeService {
 		Connection conn = null;
 		
 		try {
-			conn = new DBUtil().getConnection();
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false); // db 자동 커밋 해제 
 			
+			this.employeeDao = new EmployeeDao();
+
 			if(employeeDao.deleteEmployee(conn, paramEmployee) == 1) {
 				throw new Exception();
 			}
@@ -130,7 +133,10 @@ public class EmployeeService {
 		
 		// EmployeeDao.selectEmployeeList(conn, int rowPerPage, int beginRow)
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.employeeDao = new EmployeeDao();
 			employeeList = employeeDao.selectEmployeeList(conn, rowPerPage, beginRow);
 
 		} catch (Exception e) {
@@ -150,9 +156,11 @@ public class EmployeeService {
 		Connection conn = null;
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false); // 자동 커밋 막기
-			
+
+			this.employeeDao = new EmployeeDao();
 			if(employeeDao.updateEmployeeActive(conn, paramEmployee) == 1) {
 				System.out.println("employeeDao.updateEmployeeActive 메소드 성공!");
 			}
@@ -181,7 +189,11 @@ public class EmployeeService {
 		int lastPage = 0;
 		
 		try {
+			
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.employeeDao = new EmployeeDao();
 			int cnt = employeeDao.countAllEmployee(conn);
 			lastPage = (int) Math.ceil (cnt / (double)rowPerPage);
 			

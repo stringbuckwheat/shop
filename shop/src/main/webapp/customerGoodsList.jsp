@@ -73,8 +73,9 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
     <div class="row">
     	<!-- 카드 -->
     	
-		<%	
-		for(Map<String, Object> m : customerGoodsList){
+		<%
+		for(int i = 0; i < customerGoodsList.size(); i++){
+			Map<String, Object> m = customerGoodsList.get(i);
 		%>
     	
         <div class="col-md-3 col-sm-6">
@@ -94,6 +95,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
         </div><!-- for col -->
        <!--end -->
        <%
+       		if(i % 4 == 3) {
+       			%>
+       			   </div><div class="row">
+       			<%
+       		}
 		}
        %>
        <!-- here -->
