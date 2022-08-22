@@ -7,6 +7,7 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	return;
 }
 %>
+s
 <!DOCTYPE html>
 <html>
 <head>

@@ -130,9 +130,8 @@ public class GoodsDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
-		String sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, "
-				+ "g.update_date goodsUpdateDate, g.sold_out soldOut, gi.filename filename, gi.origin_filename originFilename, gi.content_type contentType "
-				+ "from goods g inner join goods_img gi on g.goods_no = gi.goods_no where g.goods_no = ?";
+		String sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.origin_filename originFilename "
+				+ " from goods g inner join goods_img gi on g.goods_no = gi.goods_no where g.goods_no = ?";
 
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -145,10 +144,7 @@ public class GoodsDao {
 				goodsAndImgOne.put("goodsNo", rs.getInt("goodsNo"));
 				goodsAndImgOne.put("goodsName", rs.getString("goodsName"));
 				goodsAndImgOne.put("goodsPrice", rs.getInt("goodsPrice"));
-				goodsAndImgOne.put("createDate", rs.getString("createDate"));
-				goodsAndImgOne.put("goodsUpdateDate", rs.getString("goodsUpdateDate"));
 				goodsAndImgOne.put("soldOut", rs.getString("soldOut"));
-				goodsAndImgOne.put("filename", rs.getString("filename"));
 				goodsAndImgOne.put("originFilename", rs.getString("originFilename"));
 
 			}

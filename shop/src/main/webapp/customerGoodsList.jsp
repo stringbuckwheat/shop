@@ -81,7 +81,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
         <div class="col-md-3 col-sm-6">
             <div class="product-grid2">
                 <div class="product-image2">
-                    <a href="#">
+                    <a href="<%=request.getContextPath()%>/goodsAndImgOne.jsp?goodsNo=<%=m.get("goodsNo")%>">
                         <img class="pic-1" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                         <img class="pic-2" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                     </a>

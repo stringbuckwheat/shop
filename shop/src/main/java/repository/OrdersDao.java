@@ -2,6 +2,7 @@ package repository;
 
 import java.sql.*;
 import java.util.*;
+import vo.Orders;
 
 public class OrdersDao {
 	// 5-1) 전체 주문 목록(관리자)
@@ -64,6 +65,7 @@ public class OrdersDao {
 		return orderList;
 	}
 	
+	// Orders 테이블의 전체 컬럼 수를 리턴 -> 페이징 용도
 	public int countAllOrders(Connection conn) throws Exception {
 		int lastPage = 0;
 		String sql = "select count(*) cnt FROM orders";
@@ -178,7 +180,7 @@ public class OrdersDao {
 				map = new HashMap<>();
 				
 				for(int i=1 ; i<=columnCnt; i++){
-					String tmp = rsmd.getColumnName(i);
+					String tmp = rsmd.getColumnLabel(i);
 					
 					// getInt, getString 분기
 					if(tmp.equals("orderNo") || tmp.equals("goodsNo") || tmp.equals("orderQuantity") || tmp.equals("orderPrice")) {
@@ -205,12 +207,14 @@ public class OrdersDao {
 		return map;
 	}
 	
+	// 주문 상태 수정
 	public int updateOrderState(Connection conn, String orderState, int orderNo) throws SQLException {
 		int row = 0;
 		PreparedStatement stmt = null;
 		String sql = "update orders set update_date = now(), order_state = ? where order_no = ?";
 		
 		try {
+			
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, orderState);
 			stmt.setInt(2, orderNo);
@@ -220,6 +224,66 @@ public class OrdersDao {
 			if(stmt != null) {
 				stmt.close();
 			}
+		}
+		
+		return row;
+	}
+	
+	// 주문하기
+	public int insertOrder(Connection conn, Orders order) throws SQLException {
+		int orderNo = 0; // 방금 입력한 orderNo를 저장할 변수
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "insert into orders (goods_no, customer_id, order_quantity, order_state, order_price, order_address, order_detail_address, update_date, create_date)"
+				+ " values (?, ?, ?, '주문 완료', ?, ?, ?, now(), now())";
+		
+		try {
+			
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, order.getGoodsNo());
+			stmt.setString(2, order.getCustomerId());
+			stmt.setInt(3, order.getOrderQuantity());
+			stmt.setInt(4, order.getOrderPrice());
+			stmt.setString(5, order.getOrderAddress());
+			stmt.setString(6, order.getOrderDetailAddress());
+			
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys(); // return 값
+			
+			if (rs.next()) {
+				orderNo = rs.getInt(1);
+				
+				System.out.println("NoticeDao.insertNotice - 직전 insert의 orderNo: " + orderNo);
+				// getGeneratedKeys가 반환하는 컬럼명을 알 순 없지만
+				// 첫번째라는 것은 알 수 있으므로 rs.getInt(1)
+			}
+			
+		} finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return orderNo;
+	}
+	
+	public int deleteNotice(Connection conn, int orderNo) throws SQLException {
+		int row = 0;
+		
+		PreparedStatement stmt = null;
+		String sql = "delete from orders where order_no = ?";
+		
+		try {
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, orderNo);
+			
+			row = stmt.executeUpdate();
+			
+		} finally {
+			
+			if(stmt != null) { stmt.close(); }
+		
 		}
 		
 		return row;

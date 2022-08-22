@@ -1,3 +1,4 @@
+<%@page import="service.CounterService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 
@@ -13,6 +14,11 @@ adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지
 					여기서 active 값 N을 Y로 수정할 수 있도록! (select 상자) -> EmployeeService.modifyEmployeeActive() -> EmployeeDao.updateEmployeeActive()
 */
 
+CounterService counterService = new CounterService();
+
+int totalCounter = counterService.getTotalCount();
+int todayCounter = counterService.getTodayCount();
+int currentCount = (Integer)(application.getAttribute("currentCounter"));
 %>
 <!DOCTYPE html>
 <html>
