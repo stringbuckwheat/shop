@@ -13,6 +13,8 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	return;
 }
 
+request.setCharacterEncoding("utf-8");
+
 String dir = request.getServletContext().getRealPath("/upload");
 int max = 10 * 1024 * 1024; // 10mb
 MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());

@@ -202,29 +202,5 @@ public class OrdersService {
 		return orderNo;
 	}
 	
-	public int removeOrder(int orderNo) {
-		int row = 0;
-		Connection conn = null;
-		
-		try {
-			this.dbUtil = new DBUtil();
-			conn = dbUtil.getConnection();
-			
-			this.orderDao = new OrderDao();
-			row = orderDao.deleteNotice(conn, orderNo);
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
+	
 }

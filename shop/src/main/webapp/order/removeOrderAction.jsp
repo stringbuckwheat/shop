@@ -6,4 +6,6 @@ System.out.println("--------- removeOrderAction.jsp");
 int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 
 OrdersService ordersService = new OrdersService();
+
+
 %>

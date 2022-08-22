@@ -13,8 +13,7 @@ public class OrdersDao {
 		// orders + goods + customer
 		String sql = "select o.order_no orderNo, c.customer_id customerId, c.customer_name customerName" 
 				+ ", g.goods_name goodsName, o.order_quantity orderQuantity, o.order_state orderState"
-				+ ", o.order_price orderPrice, o.order_address orderAddress"
-				+ ", o.update_date updateDate, o.create_date createDate"
+				+ ", o.order_price orderPrice, o.update_date updateDate, o.create_date createDate"
 				+ " from orders o inner join goods g on g.goods_no = o.goods_no"
 				+ " inner join customer c on o.customer_id = c.customer_id"
 				+ " order by o.create_date desc limit ?, ?";
@@ -36,7 +35,7 @@ public class OrdersDao {
 				Map<String, Object> m = new HashMap<>();
 				
 				for(int i=1 ; i<=columnCnt; i++){
-					String tmp = rsmd.getColumnName(i);
+					String tmp = rsmd.getColumnLabel(i);
 					
 					// getInt, getString 분기
 					if(tmp.equals("orderNo") || tmp.equals("goodsNo") || tmp.equals("orderQuantity") || tmp.equals("orderPrice")) {
@@ -267,25 +266,34 @@ public class OrdersDao {
 		return orderNo;
 	}
 	
-	public int deleteNotice(Connection conn, int orderNo) throws SQLException {
+	// 장바구니 전체 주문을 위해 Map 타입 파라미터로 오버로딩
+	public int insertOrder(Connection conn, Map<String, Object> map) throws SQLException {
 		int row = 0;
-		
 		PreparedStatement stmt = null;
-		String sql = "delete from orders where order_no = ?";
+		String sql = "insert into orders (goods_no, customer_id, order_quantity, order_state, order_price, order_address, order_detail_address, update_date, create_date)"
+				+ " values (?, ?, ?, '주문완료', ?, ?, ?, now(), now())";
 		
 		try {
 			
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, orderNo);
+			stmt.setInt(1, (int)map.get("goodsNo"));
+			stmt.setString(2, (String)map.get("customerId"));
+			stmt.setInt(3, (int)map.get("cartQuantity"));
+			stmt.setInt(4, (int)map.get("orderPrice"));
+			stmt.setString(5, (String)map.get("orderAddress"));
+			stmt.setString(6, (String)map.get("orderDetailAddress"));
+			
+			System.out.println(stmt);
 			
 			row = stmt.executeUpdate();
 			
 		} finally {
-			
-			if(stmt != null) { stmt.close(); }
-		
+			if(stmt != null) {
+				stmt.close();
+			}
 		}
 		
 		return row;
 	}
+	
 }

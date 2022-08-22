@@ -4,6 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 System.out.println("------------------------- addOrderAction.jsp");
+
+//TODO 세션 유효성 검사 코드 추가
+
 request.setCharacterEncoding("utf-8");
 int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 

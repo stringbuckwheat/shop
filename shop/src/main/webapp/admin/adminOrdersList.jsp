@@ -25,9 +25,9 @@ int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 
-Set<String> titleSet = orderList.get(0).keySet();
-System.out.println(titleSet);
-// [order_no, goods_no, order_quantity, order_address, order_price, customer_id, create_date, order_state, update_date]
+/* Set<String> titleSet = orderList.get(0).keySet();
+System.out.println(titleSet); */
+// [orderAddress, updateDate, orderNo, customerId, orderPrice, goodsName, customerName, orderQuantity, orderState, createDate]
 
 %>
 
@@ -37,7 +37,7 @@ System.out.println(titleSet);
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>orders list</title>
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -51,22 +51,74 @@ System.out.println(titleSet);
 			<table class="table table-striped custab">
 				<thead>
 			    	<tr>
-				    	<%for(String title : titleSet){%>	
-					    <th><%=title%></th><!-- 나중에 <a> 붙여서 정렬 -->
-				    	<%}%>
+			    		<th>주문 번호</th>
+			    		<th>이름(ID)</th>
+			    		<th>상품명</th>
+			    		<th>수량</th>
+			    		<th>가격</th>
+			    		<th>배송상태</th>
+			    		<th>배송상태 수정</th>
+					    <th>수정 일자</th>
+					    <th>주문 일자</th>
 			    	</tr>
 			    </thead>
 			    <tbody>
-			    	<%
-					// list 안 에 들어있는 Map의 value를 순회...
-					for(Map<String, Object> m : orderList){
+			    	<% 
+			    	for(Map<String, Object> m : orderList){
+			    	%>
+					<tr>
+						<td><%=m.get("orderNo")%></td>
+						<td>
+							<a href="<%=request.getContextPath()%>/admin/orderListByUser.jsp?customerId=<%=m.get("customerId")%>">
+								<%=m.get("customerName")%>(<%=m.get("customerId")%>)
+							</a>
+						</td>
+						<td>
+							<a href="<%=request.getContextPath()%>/admin/orderDetail.jsp?orderNo=<%=m.get("orderNo")%>">
+								<%=m.get("goodsName")%>
+							</a>
+						</td>
+						<td><%=m.get("orderQuantity")%></td>
+						<td><%=m.get("orderPrice")%></td>
+						<td><%=m.get("orderState")%></td>
+						<td>
+						
+							<form action="<%=request.getContextPath()%>/admin/modifyOrderStateAction.jsp" method="post">
+								<input type="hidden" name="orderNo" value="<%=m.get("orderNo")%>">
+								<input type="hidden" name="preOrderState" value="<%=m.get("orderState")%>">
+								<input type="hidden" name="currentPage" value="<%=currentPage%>">
+						        <select name="orderState">
+									<!--  DB에 저장된 값은 selected, 맨 위로 올림 -->
+									<option value="<%=m.get("orderState")%>" selected=“selected”><%=m.get("orderState")%></option>
+									
+									<%
+									// 주문 단계를 저장해놓은 배열	
+									String[] orderState = {"주문완료", "상품준비중", "배송중", "배송완료", "취소"};
+									
+									for(String s : orderState){
+										// DB에 저장된 값을 위에서 selected로 처리했으니
+										// 실제 주문 단계와 같은 값이면 continue
+										if(s.equals(m.get("orderState"))){
+											continue;
+										}
+										%>
+										
+										<option value="<%=s%>"><%=s%></option>
+										
+									<%
+									}
+									%>
+										
+								</select>
+								<button type="submit" class='btn btn-info btn-xs'>수정</button>
+							</form>
+						</td>
+						<td><%=m.get("updateDate")%></td>
+						<td><%=m.get("createDate")%></td>
+					</tr>
+					<%
+			    	}
 					%>
-						<tr>
-							<%for(Object data : m.values()){%>
-								<td><%=data%></td>
-							<%}%>
-						</tr>
-					<%}%>
 			    </tbody>
 			</table>
 		</div>

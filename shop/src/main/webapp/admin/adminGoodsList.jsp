@@ -69,7 +69,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 					<td><%=g.getUpdateDate()%></td>
 					<td><%=g.getSoldOut()%></td>
 					<td>
-						<form action="<%=request.getContextPath()%>/modifySoldOutActiveAction.jsp" method="post">
+						<form action="<%=request.getContextPath()%>/admin/modifySoldOutActiveAction.jsp" method="post">
 							<input type="hidden" name="goodsNo" value="<%=g.getGoodsNo()%>">
 							<input type="hidden" name="preSoldOutValue" value="<%=g.getSoldOut()%>">
 					        <select name="active">

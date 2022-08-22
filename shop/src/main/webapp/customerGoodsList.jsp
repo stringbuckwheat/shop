@@ -85,7 +85,21 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
                         <img class="pic-1" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                         <img class="pic-2" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
                     </a>
-                    <a class="add-to-cart" href="#">Add to cart</a>
+                    <% 
+                    if(m.get("soldOut").equals("N")){ // 주문 가능한 경우
+                    %>
+	                    <a class="add-to-cart" href="<%=request.getContextPath()%>/cart/addCartAction.jsp?goodsNo=<%=m.get("goodsNo")%>">
+	                    	Add to cart
+	                    </a>
+                    <%
+                    } else { // 품절 상품인 경우
+                    %>
+                    	<a class="add-to-cart">
+	                    	품절 상품입니다
+	                    </a>
+                    <%
+                    }
+                    %>
                 </div>
                 <div class="product-content">
                     <h3 class="title"><a href="#"><%=m.get("goodsName")%></a></h3>

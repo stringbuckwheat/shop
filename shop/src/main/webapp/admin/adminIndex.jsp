@@ -3,7 +3,7 @@
 // 세션 유효성 검정 코드 
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -21,23 +21,49 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 	<link href="<%=request.getContextPath()%>/css/adminIndex.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
+
 </head>
 <body>
 	<%@include file="../header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-12 col-md-offset-1 custyle">
-	    	<h1>상품 관리</h1>
-			<div>
-				<ul>
-					<li><a href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a></li>
-					<li><a href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a></li> <!-- 상품목록/등록/수정(품절)/삭제(장바구니, 주문이 없는 경우) -->
-					<li><a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a></li> <!-- 주문목록 / 수정 -->
-					<li><a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a></li> <!-- 고객목록 / 강제 탈퇴 / 비밀번호 수정(전달 구현 X) -->
-					<li><a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a></li> <!-- 공지 CRUD -->
-				</ul>
-			</div>
+	    	<h2>관리자 페이지</h2>
+		    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Bootsnipp -->
+			<ins class="adsbygoogle"
+			     style="display:block"
+			     data-ad-client="ca-pub-7749520983305929"
+			     data-ad-slot="1217000491"
+			     data-ad-format="auto"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+        
+		     <div class="well text-center">
+	             <button type="button" class="btn btn-sunny text-uppercase">
+	             	<a href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a>
+	             </button>
+	             <button type="button" class="btn btn-sunny text-uppercase">
+	             	<a href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a>
+	             </button>
+	             <button type="button" class="btn btn-sunny text-uppercase">
+	             	<a href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a>
+	             </button>
+	             <button type="button" class="btn btn-sunny text-uppercase">
+	             	<a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
+	             </button>
+	             <button type="button" class="btn btn-sunny text-uppercase">
+	             	<a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a>
+	             </button>
+			 </div>
 		</div>
 	</div>
 </body>
