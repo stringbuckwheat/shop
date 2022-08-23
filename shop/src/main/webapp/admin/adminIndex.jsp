@@ -34,8 +34,17 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 <body>
 	<%@include file="../header.jsp"%>
 	<div class="container">
-	    <div class="row col-md-12 col-md-offset-1 custyle">
+	    <div class="row col-md-8 col-md-offset-1 custyle">
 	    	<h2>관리자 페이지</h2>
+	    	
+	    	<%
+			if(request.getParameter("errorMsg") != null){
+			%>
+				<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
+			<%
+			}
+			%>
+	    	
 		    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- Bootsnipp -->
 			<ins class="adsbygoogle"
@@ -61,7 +70,7 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	             	<a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
 	             </button>
 	             <button type="button" class="btn btn-sunny text-uppercase">
-	             	<a href="<%=request.getContextPath()%>/admin/adminNoticeList.jsp">공지관리</a>
+	             	<a href="<%=request.getContextPath()%>/notice/noticeList.jsp">공지관리</a>
 	             </button>
 			 </div>
 		</div>

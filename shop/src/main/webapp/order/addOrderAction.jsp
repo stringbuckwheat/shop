@@ -5,7 +5,11 @@
 <%
 System.out.println("------------------------- addOrderAction.jsp");
 
-//TODO 세션 유효성 검사 코드 추가
+// 세션 유효성 검사
+if(session.getAttribute("id") == null || (session.getAttribute("user").equals("Employee"))){
+	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	return;
+}
 
 request.setCharacterEncoding("utf-8");
 int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));

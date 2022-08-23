@@ -5,8 +5,13 @@
 System.out.println("---------------- addCartAction.jsp");
 
 // 세션 유효성 검사
-if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Customer"))){	
+if(session.getAttribute("id") == null){	
 	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	return;
+}
+
+if(!(session.getAttribute("user").equals("Customer"))){
+	response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp?errorMsg=admin user cannot buy products");
 	return;
 }
 

@@ -47,13 +47,9 @@ int currentCount = (Integer)(application.getAttribute("currentCounter"));
 	}
 	%>
 	<div>
-		<%=session.getAttribute("user")%>
-		<br>
-		<%=session.getAttribute("id")%>
-		<br>
-		<%=session.getAttribute("name")%>
-		<br>
+		<%=session.getAttribute("name")%>(<%=session.getAttribute("user")%>, <%=session.getAttribute("id")%>)님 반갑습니다. 
 		<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">쇼핑하기</a>
 	</div>
 	
 	<%

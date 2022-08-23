@@ -9,7 +9,7 @@
 <%
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -74,6 +74,6 @@ if(goodsNo == 0){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/admin/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
+response.sendRedirect(request.getContextPath() + "/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
 
 %>

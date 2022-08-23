@@ -32,5 +32,5 @@ session.setAttribute("user", "Customer");
 session.setAttribute("id", loginCustomer.getCustomerId());
 session.setAttribute("name", loginCustomer.getCustomerName());
 
-response.sendRedirect(request.getContextPath() + "/index.jsp");
+response.sendRedirect(request.getContextPath() + "/customerGoodsList.jsp");
 %>

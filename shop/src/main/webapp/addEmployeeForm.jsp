@@ -28,6 +28,10 @@ if(session.getAttribute("id") != null){
 				<div class="main-div">
 				   <div class="panel">
 					   <h2>관리자 회원 가입</h2>
+					   <div class="forgot text-center">
+				 	       <a href="<%=request.getContextPath()%>/addCustomerForm.jsp">일반 회원으로 가입하시겠습니까?</a>
+						</div>
+					   
 						<%
 							if(request.getParameter("errorMsg") != null){
 								%>

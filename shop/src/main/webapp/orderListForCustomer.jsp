@@ -8,6 +8,11 @@ if(session.getAttribute("id") == null){
 	return;
 }
 
+if(session.getAttribute("user").equals("Employee")){
+	response.sendRedirect(request.getContextPath() + "/admin/adminOrdersList.jsp");
+	return;
+}
+
 //List<Map<String, Object>> getOrderById(String customerId, int rowPerPage, int currentPage)
 String customerId = request.getParameter("customerId");
 System.out.println(customerId);

@@ -51,7 +51,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 </head>
 <body>
 	<%@include file="/header.jsp"%>
-	<!-- for / if 대체 기술: custom tag(JSTL 라이브러리, EL) -->
+	
+	
+	<div class="container">
+    <h3 class="h3">전체 상품</h3>
+    <!-- for / if 대체 기술: custom tag(JSTL 라이브러리, EL) -->
 	<div>
 		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=popular">인기순</a> <!-- 조회수? -->
 		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp?sortBy=sales">판매량순</a> 
@@ -62,14 +66,23 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	
 	<form action="<%=request.getContextPath()%>/customerGoodsList.jsp" method="get">
 		<select name="rowPerPage">
-			<option value="20">20개 씩 보기</option>
-			<option value="40">40개 씩 보기</option>
+			<%
+			if(rowPerPage == 40){
+			%>
+				<option value="20">20개 씩 보기</option>
+				<option value="40" selected=“selected”>40개 씩 보기</option>
+							
+			<%
+			} else {
+			%>
+				<option value="20" selected=“selected”>20개 씩 보기</option>
+				<option value="40">40개 씩 보기</option>
+			<%
+			}
+			%>
 		</select>
-		<button type="submit">확인</button>
+		<button type="submit" class="btn btn-warning">확인</button>
 	</form>
-	
-	<div class="container">
-    <h3 class="h3">shopping Demo-2 </h3>
     <div class="row">
     	<!-- 카드 -->
     	
