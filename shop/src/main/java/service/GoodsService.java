@@ -28,9 +28,11 @@ public class GoodsService {
 		Connection conn = null;
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false);
 			
+			this.goodsDao = new GoodsDao();
 			goodsNo = goodsDao.insertGoods(conn, goods);
 			// 방금 insert한 goods_no 리턴 -> action의 redirection에 씀
 
@@ -78,7 +80,10 @@ public class GoodsService {
 		Connection conn = null;
 
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.goodsDao = new GoodsDao();
 			goodsAndImgOne = goodsDao.selectGoodsAndImgOne(conn, goodsNo);
 			System.out.println("getGoodsAndImgOne: " + goodsAndImgOne);
 
@@ -107,7 +112,10 @@ public class GoodsService {
 		int beginRow = (currentPage - 1) * rowPerPage;
 
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.goodsDao = new GoodsDao();
 			goodsList = goodsDao.selectGoodsListByPage(conn, rowPerPage, beginRow);
 			System.out.println("goodsList.size: " + goodsList.size());
 
@@ -134,9 +142,13 @@ public class GoodsService {
 		int lastPage = 0;
 
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.goodsDao = new GoodsDao();
 			int cnt = goodsDao.countAllGoods(conn);
-			lastPage = (int) Math.ceil(cnt / (double) rowPerPage);
+			
+			lastPage = (int) Math.ceil(cnt / (double) rowPerPage); // lastPage 여기서 구해서 넘기기
 
 		} catch (Exception e) {
 
@@ -161,9 +173,11 @@ public class GoodsService {
 		List<Map<String, Object>> list = null;
 		
 		try {
-
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
-			int beginRow = (currentPage - 1) * rowPerPage;
+			int beginRow = (currentPage - 1) * rowPerPage; // beginRow 구해서 넘기기
+			
+			this.goodsDao = new GoodsDao();
 			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, sortBy);
 			
 		} catch(Exception e) {

@@ -20,49 +20,84 @@ int totalCounter = counterService.getTotalCount();
 int todayCounter = counterService.getTodayCount();
 int currentCount = (Integer)(application.getAttribute("currentCounter"));
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Index</title>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>index</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<link href="<%=request.getContextPath()%>/css/adminIndex.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+	<div class="container">
+	    <div class="row col-md-8 col-md-offset-1 custyle">
+	    	<h2>MYPAGE</h2>
 	
-	<%
-	if(request.getParameter("errorMsg") != null){
-	%>
-		<div>
-			<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
+			<div>
+				총 방문자 수: <%=totalCounter%>
+			</div>
+			<div>
+				오늘 방문자 수: <%=todayCounter%>
+			</div>
+			<div>
+				동시 접속자 수: <%=currentCount%>
+			</div>
+			
+			<%
+			if(request.getParameter("errorMsg") != null){
+			%>
+				<div>
+					<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
+				</div>
+			<%
+			}
+			%>
+			
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Bootsnipp -->
+			<ins class="adsbygoogle"
+			     style="display:block"
+			     data-ad-client="ca-pub-7749520983305929"
+			     data-ad-slot="1217000491"
+			     data-ad-format="auto"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+			
+			<div class="well text-center">
+		         <button type="button" class="btn btn-sunny text-uppercase">
+		         	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+		         </button>
+		         <button type="button" class="btn btn-sunny text-uppercase">
+		         	<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">쇼핑하기</a>
+		         </button>
+		        
+		 	
+					<%
+					if("Employee".equals(session.getAttribute("user"))){
+					%>
+						<button type="button" class="btn btn-sunny text-uppercase">
+				         	<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
+				         </button>
+					<%
+					}
+					%>
+			</div>
 		</div>
-	<%
-	}
-	%>
-	<div>
-		<%=session.getAttribute("name")%>(<%=session.getAttribute("user")%>, <%=session.getAttribute("id")%>)님 반갑습니다. 
-		<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
-		<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">쇼핑하기</a>
 	</div>
-	
-	<%
-	if("Employee".equals(session.getAttribute("user"))){
-	%>
-		<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
-	<%
-	}
-	%>
-	
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
+<%@page import="service.CounterService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    <meta charset="utf-8">
 
+    <meta charset="utf-8">
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-between">
@@ -79,7 +80,8 @@
             </li>
 	        	<li class="nav-item"><a href="<%=request.getContextPath()%>/orderListForCustomer.jsp?customerId=<%=(String)session.getAttribute("id")%>" class="nav-link">ORDER</a></li>
 	        	<li class="nav-item"><a href="<%=request.getContextPath()%>/cart/cartList.jsp" class="nav-link">CART</a></li>
-	          <li class="nav-item"><a href="<%=request.getContextPath()%>/notice/noticeList.jsp" class="nav-link">NOTICE</a></li>
+	          	<li class="nav-item"><a href="<%=request.getContextPath()%>/notice/noticeList.jsp" class="nav-link">NOTICE</a></li>
+	          	<li class="nav-item"><a href="<%=request.getContextPath()%>/index.jsp" class="nav-link">MYPAGE</a></li>
 	        </ul>
 	      </div>
 	    </div>

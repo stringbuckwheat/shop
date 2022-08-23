@@ -1,35 +1,87 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import repository.CounterDao;
 
 public class CounterService {
+	private DBUtil dbUtil;
 	private CounterDao counterDao;
 	
 	public void count() {
 		Connection conn = null;
 		
-		this.counterDao = new CounterDao();
-				
-		if(counterDao.selectCounterToday(conn) == null) {
-			counterDao.insertCounter(conn);
-		} else {
-			counterDao.updateCounter(conn);
+		try {
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			
+			this.counterDao = new CounterDao();
+			
+			if(counterDao.selectCounterToday(conn) == null) {
+				counterDao.insertCounter(conn);
+			} else {
+				counterDao.updateCounter(conn);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public int getTotalCount() {
-		counterDao = new CounterDao();
+		int totalCount = -1;
 		Connection conn = null;
-		int totalCount = counterDao.selectTotalCount(conn);
+
+		try {
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			
+			this.counterDao = new CounterDao();
+			totalCount = counterDao.selectTotalCount(conn);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return totalCount;
 	}
 
 	public int getTodayCount() {
-		counterDao = new CounterDao();
+		
+		int todayCount = -1;
 		Connection conn = null;
-		int todayCount = counterDao.selectTodayCount(conn);
+
+		try {
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			
+			this.counterDao = new CounterDao();
+			todayCount = counterDao.selectTodayCount(conn);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+		
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return todayCount;
 	}
 

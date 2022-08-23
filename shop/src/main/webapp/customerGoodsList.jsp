@@ -83,6 +83,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 		</select>
 		<button type="submit" class="btn btn-warning">확인</button>
 	</form>
+	
     <div class="row">
     	<!-- 카드 -->
     	

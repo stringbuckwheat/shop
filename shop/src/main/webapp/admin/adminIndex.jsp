@@ -1,3 +1,4 @@
+<%@page import="service.CounterService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 // 세션 유효성 검정 코드 
@@ -8,6 +9,12 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 }
 
 // 사원관리, 상품관리, 고객관리, 주문관리, 공지관리
+
+CounterService counterService = new CounterService();
+
+int totalCounter = counterService.getTotalCount();
+int todayCounter = counterService.getTodayCount();
+int currentCount = (Integer)(application.getAttribute("currentCounter"));
 %>
 
 <!DOCTYPE html>
@@ -26,8 +33,8 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
 
 </head>
@@ -44,6 +51,16 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 			<%
 			}
 			%>
+			
+			<div>
+				총 방문자 수: <%=totalCounter%>
+			</div>
+			<div>
+				오늘 방문자 수: <%=todayCounter%>
+			</div>
+			<div>
+				동시 접속자 수: <%=currentCount%>
+			</div>
 	    	
 		    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- Bootsnipp -->
@@ -56,7 +73,7 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
         
-		     <div class="well text-center">
+		    <div class="well text-center">
 	             <button type="button" class="btn btn-sunny text-uppercase">
 	             	<a href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a>
 	             </button>

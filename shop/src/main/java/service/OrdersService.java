@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import repository.NoticeDao;
 import repository.OrdersDao;
 import vo.Orders;
 
@@ -13,6 +12,7 @@ public class OrdersService {
 	private OrdersDao ordersDao;
 	private DBUtil dbUtil;
 	
+	// 전체 주문 목록
 	public List<Map<String, Object>> getOrderListByPage(int rowPerPage, int currentPage){
 		System.out.println("----------- OrdersService.getOrderListByPage()");
 		
@@ -23,11 +23,13 @@ public class OrdersService {
 		int beginRow = (currentPage - 1) * rowPerPage;
 		
 		try {
+			
 			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
 			
 			this.ordersDao = new OrdersDao();
 			orderList = ordersDao.selectOrdersList(conn, rowPerPage, beginRow);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -41,6 +43,7 @@ public class OrdersService {
 		return orderList;
 	}
 	
+	// 마지막 페이지를 구하는 메소드
 	public int getLastPage(int rowPerPage) {
 		System.out.println("----------- OrdersService.getLastPage()");
 
@@ -71,6 +74,7 @@ public class OrdersService {
 		return lastPage;
 	}
 	
+	// 고객별 주문 리스트를 구하는 메소드
 	public List<Map<String, Object>> getOrderById(String customerId, int rowPerPage, int currentPage){
 		System.out.println("----------- OrdersService.getOrderById()");
 
@@ -107,6 +111,7 @@ public class OrdersService {
 		return orders;
 	}
 	
+	// 상세주문 페이지
 	public Map<String, Object> getOrderDetail(int orderNo){
 		System.out.println("----------- OrdersService.getOrderDetail()");
 

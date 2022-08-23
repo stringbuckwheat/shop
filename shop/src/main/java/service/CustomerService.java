@@ -2,8 +2,6 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 import repository.CustomerDao;
 import repository.OutIdDao;
@@ -13,22 +11,19 @@ public class CustomerService {
 	private CustomerDao customerDao;
 	private DBUtil dbUtil;
 	
-	public CustomerService() {
-		super();
-		this.customerDao = new CustomerDao();
-		this.dbUtil = new DBUtil();
-	}
-
 	public Customer getCustomerByIdAndPw(Customer paramCustomer){
 		Connection conn = null;
 		Customer customer = null;
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			
+			this.customerDao = new CustomerDao();
 			customer = customerDao.selectCustomerByIdAndPw(conn, paramCustomer);
 			
 			// 디버깅
-			if(customer != null ) {
+			if(customer != null) {
 				System.out.println("회원 로그인 메소드 성공");
 			}
 			
@@ -51,9 +46,11 @@ public class CustomerService {
 		Connection conn = null;
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
 			conn.setAutoCommit(false); // executeUpdate() 실행 시 자동 커밋 해제
 						
+			this.customerDao = new CustomerDao();
 			if(customerDao.deleteCustomer(conn, paramCustomer) == 1) {
 				throw new Exception(); // 오류는 발생하지 않았지만 삭제는 안 된 경우
 			}
@@ -70,7 +67,7 @@ public class CustomerService {
 			e.printStackTrace(); // *****
 			
 			try {
-				conn.rollback();
+				conn.rollback(); // 실패 시 db를 메소드 실행 이전으로 되돌림
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -93,14 +90,17 @@ public class CustomerService {
 		boolean result = true; // 메소드 실행 결과값을 담을 변수
 		
 		try {
+			this.dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
-			conn.setAutoCommit(false);
+			conn.setAutoCommit(false); // 자동커밋 막음
 			
+			this.customerDao = new CustomerDao();
 			if(customerDao.insertCustomer(conn, paramCustomer) != 1) {
 				throw new Exception();
 			}
 			
 			conn.commit();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			
@@ -111,6 +111,7 @@ public class CustomerService {
 			}
 			
 			result = false;
+			
 		} finally {
 			try {
 				conn.close();
@@ -122,12 +123,5 @@ public class CustomerService {
 		return result;
 	}
 	
-	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage){
-		List<Map<String, Object>> customerGoodsList = null;
-		
-		// GoodsDao
-		// beginRow 구하기
-		return customerGoodsList;
-	}
 	
 }

@@ -13,6 +13,7 @@ public class EmployeeService {
 	private EmployeeDao employeeDao;
 
 	public boolean addEmployee(Employee paramEmployee) {
+		System.out.println("--------------- EmployeeService.addEmployee()");
 		boolean result = true; // 메소드 실행 결과값을 담을 변수
 		Connection conn = null;
 		
@@ -24,11 +25,16 @@ public class EmployeeService {
 			this.employeeDao = new EmployeeDao();
 			
 			if(employeeDao.insertEmployee(conn, paramEmployee) != 1) {
-				throw new Exception();
+				// 오류는 나지 않았지만 정상적 삽입도 아닌 경우 의도적으로 오류를 발생시킴
+				throw new Exception(); 
 			}
 			
 			conn.commit();
+			System.out.println("addEmployee() 성공");
+			
 		} catch(Exception e) {
+			result = false;
+			
 			e.printStackTrace();
 			
 			try {
@@ -36,8 +42,6 @@ public class EmployeeService {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			
-			result = false;
 			
 		} finally {
 			try {
@@ -50,7 +54,10 @@ public class EmployeeService {
 		return result;
 	}
 	
+	// 로그인 메소드
 	public Employee getEmployeeByIdAndPw(Employee paramEmployee) throws Exception{
+		System.out.println("--------------- EmployeeService.getEmployeeByIdAndPw()");
+
 		Connection conn = null;
 		Employee employee = null;
 		
@@ -59,6 +66,7 @@ public class EmployeeService {
 			conn = dbUtil.getConnection();
 			
 			this.employeeDao = new EmployeeDao();
+			// where id and pw
 			employee = employeeDao.selectEmployeeByIdAndPw(conn, paramEmployee);
 			
 			// 디버깅
@@ -79,8 +87,10 @@ public class EmployeeService {
 		return employee;
 	}
 	
-	
+	// 직원 삭제/탈퇴
 	public boolean removeEmployee(Employee paramEmployee) {
+		System.out.println("--------------- EmployeeService.removeEmployee()");
+
 		Connection conn = null;
 		
 		try {
@@ -125,6 +135,8 @@ public class EmployeeService {
 	
 	// adminindex -> employeeList 구하기
 	public List<Employee> getEmployeeList(int rowPerPage, int currentPage){
+		System.out.println("--------------- EmployeeService.getEmployeeList()");
+
 		List<Employee> employeeList = null;
 		Connection conn = null;
 		
@@ -152,7 +164,10 @@ public class EmployeeService {
 		return employeeList;
 	}
 	
+	// 직원 권한 수정 메소드
 	public void modifyEmployeeActive(Employee paramEmployee) {
+		System.out.println("--------------- EmployeeService.modifyEmployeeActive()");
+
 		Connection conn = null;
 		
 		try {
@@ -184,6 +199,7 @@ public class EmployeeService {
 		}
 	}
 	
+	// 페이징 용도
 	public int getLastPage(int rowPerPage) {
 		Connection conn = null;
 		int lastPage = 0;

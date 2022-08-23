@@ -7,7 +7,7 @@ import vo.Goods;
 
 public class GoodsDao {
 
-	// 상품 추가 메소드
+	// 상품 추가 메소드 --  Statement.RETURN_GENERATED_KEYS
 	public int insertGoods(Connection conn, Goods goods) throws Exception {
 		System.out.println("------------------------------ GoodsDao.insertGoods()");
 
