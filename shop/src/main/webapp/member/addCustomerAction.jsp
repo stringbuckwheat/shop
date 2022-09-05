@@ -26,7 +26,7 @@ System.out.println("customer: " + customer);
 CustomerService customerService = new CustomerService();
 
 if(!customerService.addCustomer(customer)){
-	response.sendRedirect(request.getContextPath() + "/addCustomerForm.jsp?errorMsg=sign up error");
+	response.sendRedirect(request.getContextPath() + "/member/addCustomerForm.jsp?errorMsg=sign up error");
 	return;
 }
 

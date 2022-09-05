@@ -3,16 +3,15 @@
 <%
 // 세션 유효성 검사 - 로그인 한 관리자 계정만 접근 가능
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
 request.setCharacterEncoding("utf-8");
 
 //orderState 값이 바뀌지 않았을 시 리턴 
-//TODO: 일단은 orderList로 redirection 해놓았는데 고민 필요
 if(request.getParameter("preOrderState").equals(request.getParameter("orderState"))){
-	response.sendRedirect(request.getContextPath() + "/orderList.jsp?errorMsg=not changed");
+	response.sendRedirect(request.getContextPath() + "/admin/adminOrdersList.jsp?errorMsg=not changed");
 	return;
 }
 

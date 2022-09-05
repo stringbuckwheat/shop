@@ -1,3 +1,6 @@
+<%@page import="vo.Category"%>
+<%@page import="java.util.List"%>
+<%@page import="service.CategoryService"%>
 <%@page import="service.CounterService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
@@ -57,17 +60,18 @@
 				<form action="#" class="searchform order-lg-last">
           <div class="form-group d-flex">
             <input type="text" class="form-control pl-3" placeholder="Search">
-            <button type="submit" placeholder="" class="form-control search"><span class="fa fa-search"></span></button>
+            <button type="submit" class="form-control search"><span class="fa fa-search"></span></button>
           </div>
         </form>
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav mr-auto">
 	        	<li class="nav-item active"><a href="<%=request.getContextPath()%>/index.jsp" class="nav-link">Home</a></li>
-	        	<li class="nav-item dropdown">
-			        <%
+				<%
 			       	 // 세션에 저장된 유저 타입이 '직원'이면 admin 메뉴를 보여줌
 		       		 if("Employee".equals(session.getAttribute("user"))){
 		       		%>
+	        	<li class="nav-item dropdown">
+			        
 		              <a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/admin/adminIndex.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN</a>
 		              <div class="dropdown-menu" aria-labelledby="dropdown04">
 		              	<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a>
@@ -76,21 +80,27 @@
 		                <a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
 		                <a class="dropdown-item" href="<%=request.getContextPath()%>/notice/noticeList.jsp">공지관리</a>
 		              </div>
-	              <%
+	             
+            	</li>
+            	 <%
 	              }
 	              %>
-            	</li>
-            	
             	<!-- 카테고리 -->
-            	<!-- TODO 카테고리 받아와서 반복문으로 돌리기 -->
             	<li class="nav-item dropdown">
             		<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/index.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORY</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown04">
-							<a class="dropdown-item" href="<%=request.getContextPath()%>/categoryGoodsList.jsp">사원관리</a>
-							<a class="dropdown-item" href="<%=request.getContextPath()%>/index.jsp">상품관리</a>
-							<a class="dropdown-item" href="<%=request.getContextPath()%>/index.jsp">고객관리</a>
-							<a class="dropdown-item" href="<%=request.getContextPath()%>/index.jsp">주문관리</a>
-							<a class="dropdown-item" href="<%=request.getContextPath()%>/index.jsp">공지관리</a>
+							<%
+								CategoryService categoryService = new CategoryService();
+								List<Category> categoryList = categoryService.getCategoryList();
+								
+								for(Category c : categoryList){
+							%>
+									<a class="dropdown-item" href="<%=request.getContextPath()%>/categoryGoodsList.jsp?categoryId=<%=c.getCategoryId()%>"><%=c.getCategoryName()%></a>
+						
+							<%
+								}
+							%>
+							
 						</div>
             	</li>
             

@@ -29,7 +29,6 @@ if(session.getAttribute("id") != null){
 				<div class="main-div">
 				   <div class="panel">
 				   <h2>Customer Login</h2>
-				   <p>Please enter your id and password</p>
 				   <%
 					if(request.getParameter("errorMsg") != null){
 					%>
@@ -51,7 +50,7 @@ if(session.getAttribute("id") != null){
 						</div>
 				        <button type="button" class="btn btn-primary" id="customerLoginBtn">Login</button>
 				        <div class="forgot text-center">
-				 	       <a href="<%=request.getContextPath()%>/employeeLoginForm.jsp">관리자 로그인</a>
+				 	       <a href="<%=request.getContextPath()%>/login/employeeLoginForm.jsp">관리자 로그인</a>
 						</div>
 				    </form>
 				</div>

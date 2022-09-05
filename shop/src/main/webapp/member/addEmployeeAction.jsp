@@ -24,7 +24,7 @@ System.out.println("employee: " + employee);
 EmployeeService employeeService = new EmployeeService();
 
 if(!employeeService.addEmployee(employee)){
-	response.sendRedirect(request.getContextPath() + "/addEmployeeForm.jsp?errorMsg=sign up error");
+	response.sendRedirect(request.getContextPath() + "/member/addEmployeeForm.jsp?errorMsg=sign up error");
 	return;
 }
 

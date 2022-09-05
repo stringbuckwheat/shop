@@ -4,7 +4,7 @@
 
 <%
 if(session.getAttribute("id") != null){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=already logined");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=already logined");
 	return;
 }
 

@@ -5,7 +5,7 @@
 // 세션 유효성 검사
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){	
 	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -46,6 +46,17 @@ System.out.println(titleSet); */
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+	
+	<%
+	// errorMsg 파라미터가 존재하면 알림창으로 알려줌
+	// 배송상태를 같은 값으로 변경하려고 할 때, 혹은 배송상태 변경에 실패했을 떄
+	if(request.getParameter("errorMsg") != null){
+	%>
+		<script>alert("<%=request.getParameter("errorMsg")%>")</script>
+	<%
+	}
+	%>
+	
 	<div class="container">
 	    <div class="row col-md-12 col-md-offset-1 custyle">
 			<table class="table table-striped custab">

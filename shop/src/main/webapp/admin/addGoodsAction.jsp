@@ -9,7 +9,7 @@
 <%
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -40,7 +40,7 @@ if(!(contentType.equals("image/gif") || contentType.equals("image/png") || conte
 		f.delete(); // return boolean
 	}
 	
-	response.sendRedirect(request.getContextPath() + "/fileUploadForm.jsp?errorMsg=img file only");
+	response.sendRedirect(request.getContextPath() + "/admin/addGoodsForm.jsp?errorMsg=img file only");
 	return;
 }
 
@@ -74,6 +74,6 @@ if(goodsNo == 0){
 	return;
 }
 
-response.sendRedirect(request.getContextPath() + "/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
+response.sendRedirect(request.getContextPath() + "/goods/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
 
 %>

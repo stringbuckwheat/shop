@@ -3,7 +3,7 @@
 <%
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 %>
@@ -15,6 +15,15 @@ if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("
 <title>add goods form</title>
 </head>
 <body>
+	<%
+	// errorMsg 파라미터가 존재하면 알림창으로 알려줌
+	if(request.getParameter("errorMsg") != null){
+	%>
+		<script>alert("<%=request.getParameter("errorMsg")%>")</script>
+	<%
+	}
+	%>
+	
 	<form action="<%=request.getContextPath()%>/admin/addGoodsAction.jsp" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>

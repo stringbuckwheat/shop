@@ -32,14 +32,12 @@ int currentCount = (Integer)(application.getAttribute("currentCounter"));
 	<link href="<%=request.getContextPath()%>/css/adminIndex.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
 
 </head>
 <body>
-	<%@include file="../header.jsp"%>
+	<%@include file="/header.jsp"%>
 	<div class="container">
 	    <div class="row col-md-8 col-md-offset-1 custyle">
 	    	<h2>관리자 페이지</h2>

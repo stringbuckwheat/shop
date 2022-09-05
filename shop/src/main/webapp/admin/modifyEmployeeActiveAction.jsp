@@ -5,7 +5,7 @@
 // return
 //로그인 한 사람만 입장 가능
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 

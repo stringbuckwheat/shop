@@ -3,7 +3,7 @@
 <%
 
 if(session.getAttribute("id") == null){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=Login needed");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=Login needed");
 	return;
 }
 
@@ -78,10 +78,10 @@ int currentCount = (Integer)(application.getAttribute("currentCounter"));
 			
 			<div class="well text-center">
 		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
+		         	<a href="<%=request.getContextPath()%>/member/outIdForm.jsp">회원 탈퇴</a>
 		         </button>
 		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">쇼핑하기</a>
+		         	<a href="<%=request.getContextPath()%>/index.jsp">쇼핑하기</a>
 		         </button>
 		        
 		 	

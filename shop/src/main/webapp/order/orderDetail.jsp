@@ -6,7 +6,7 @@ System.out.println("-------------------- orderDetail.jsp");
 
 // 세션 유효성 검사 -> 로그인 여부
 if(session.getAttribute("id") == null){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=login needed");
 	return;
 }
 
@@ -22,7 +22,7 @@ System.out.println(order);
 if(!(sessionId.equals(order.get("customerId")))){
 	System.out.println("session id != order id");
 
-	response.sendRedirect(request.getContextPath() + "/customerGoodsList.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/index.jsp?errorMsg=no authority");
 	return;
 }
 

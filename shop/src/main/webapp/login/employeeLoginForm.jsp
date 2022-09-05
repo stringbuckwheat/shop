@@ -37,7 +37,7 @@ if(session.getAttribute("id") != null){
 						}
 						%>
 				   </div>
-				   <form id="employeeLoginForm" method="post" action="<%=request.getContextPath()%>/employeeLoginAction.jsp">
+				   <form id="employeeLoginForm" method="post" action="<%=request.getContextPath()%>/login/employeeLoginAction.jsp">
 				        <div class="form-group">
 				        	<input type="text" class="form-control" name="employeeId" id="employeeId" placeholder="enter your id...">
 				        </div>
@@ -45,11 +45,11 @@ if(session.getAttribute("id") != null){
 				            <input type="password" class="form-control" name="employeePass" id="employeePass" placeholder="enter your password...">
 				        </div>
 				        <div class="forgot">
-				 	       <a href="<%=request.getContextPath()%>/addEmployeeForm.jsp">Sign Up</a>
+				 	       <a href="<%=request.getContextPath()%>/member/addEmployeeForm.jsp">Sign Up</a>
 						</div>
 				        <button type="button" class="btn btn-primary" id="employeeLoginBtn">Login</button>
 				        <div class="forgot text-center">
-				 	       <a href="<%=request.getContextPath()%>/customerLoginForm.jsp">일반 회원 로그인</a>
+				 	       <a href="<%=request.getContextPath()%>/login/customerLoginForm.jsp">일반 회원 로그인</a>
 						</div>
 				    </form>
 				</div>

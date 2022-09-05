@@ -6,8 +6,7 @@
 // 세션 유효성 검사
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
 	// customer로 로그인한 사람은 loginForm -> index 
-	// TODO 에러메시지도 같이 넘기기 
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -43,6 +42,17 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 </head>
 <body>
 	<%@include file="/header.jsp"%>
+	
+	<%
+	// errorMsg 파라미터가 존재하면 알림창으로 알려줌
+	// 직원의 active 값 수정버튼을 눌렀는데 변동사항이 없을 때 (ex. 'Y'를 'Y'로 수정하려는 등의 시도)
+	if(request.getParameter("errorMsg") != null){
+	%>
+		<script>alert("<%=request.getParameter("errorMsg")%>")</script>
+	<%
+	}
+	%>
+	
 	<div class="container">
 	    <div class="row col-md-8 col-md-offset-2 custyle">
 		<table class="table table-striped custab">
@@ -65,7 +75,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 					<td><%=e.getCreateDate()%></td>
 					<td><%=e.getUpdateDate()%></td>
 					<td>
-						<form action="<%=request.getContextPath()%>/modifyEmployeeActiveAction.jsp" method="post">
+						<form action="<%=request.getContextPath()%>/admin/modifyEmployeeActiveAction.jsp" method="post">
 							<input type="hidden" name="employeeId" value="<%=e.getEmployeeId()%>">
 							<input type="hidden" name="preActiveValue" value="<%=e.getEmployeeActive()%>">
 					        <select name="active">

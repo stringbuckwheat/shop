@@ -5,7 +5,7 @@
 
 <%
 if(session.getAttribute("id") != null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=alreadyLogined");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=alreadyLogined");
 	return;
 }
 
@@ -25,7 +25,7 @@ System.out.println("loginEmployee: " + loginEmployee);
 
 // redirect
 if(loginEmployee == null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=loginFail");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=loginFail");
 	return;
 }
 

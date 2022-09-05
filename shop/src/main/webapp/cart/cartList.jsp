@@ -4,7 +4,7 @@
 <%
 
 if(session.getAttribute("id") == null){	
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 

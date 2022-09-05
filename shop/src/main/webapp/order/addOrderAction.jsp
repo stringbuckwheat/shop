@@ -7,7 +7,7 @@ System.out.println("------------------------- addOrderAction.jsp");
 
 // 세션 유효성 검사
 if(session.getAttribute("id") == null || (session.getAttribute("user").equals("Employee"))){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=login needed");
 	return;
 }
 
@@ -38,7 +38,7 @@ int orderNo = ordersService.addOrder(order);
 
 if(orderNo == 1){
 	System.out.println("주문 실패!");
-	response.sendRedirect(request.getContextPath() + "/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
+	response.sendRedirect(request.getContextPath() + "/goods/goodsAndImgOne.jsp?goodsNo=" + goodsNo);
 	return;
 }
 

@@ -20,7 +20,7 @@ if(session.getAttribute("id") != null){
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -32,7 +32,7 @@ if(session.getAttribute("id") != null){
 				   <div class="panel">
 					   <h2>일반 회원 가입</h2>
 					   <div class="forgot text-center">
-				 	       <a href="<%=request.getContextPath()%>/addEmployeeForm.jsp">관리자 계정으로 가입하시겠습니까?</a>
+				 	       <a href="<%=request.getContextPath()%>/member/addEmployeeForm.jsp">관리자 계정으로 가입하시겠습니까?</a>
 						</div>
 						<%
 							if(request.getParameter("errorMsg") != null){
@@ -52,7 +52,7 @@ if(session.getAttribute("id") != null){
 						
 						<br>
 						
-						<form id="customerForm" action="<%=request.getContextPath()%>/addCustomerAction.jsp" method="post">
+						<form id="customerForm" action="<%=request.getContextPath()%>/member/addCustomerAction.jsp" method="post">
 							<div class="form-group">
 				        		<input type="text" class="form-control" name="customerId" id="customerId" readonly="readonly">
 					        </div>

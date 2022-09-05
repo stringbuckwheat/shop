@@ -6,7 +6,7 @@ System.out.println("---------------- addCartAction.jsp");
 
 // 세션 유효성 검사
 if(session.getAttribute("id") == null){	
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=login needed");
 	return;
 }
 

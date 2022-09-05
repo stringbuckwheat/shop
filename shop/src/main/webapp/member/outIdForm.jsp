@@ -12,7 +12,7 @@ if(session.getAttribute("id") == null){
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="post" action="<%=request.getContextPath()%>/outIdAction.jsp">
+	<form method="post" action="<%=request.getContextPath()%>/member/outIdAction.jsp">
 		<fieldset>
 			<legend>비밀번호를 다시 한 번 입력하세요 </legend>
 			<input type="password" name="pw">

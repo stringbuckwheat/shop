@@ -5,7 +5,7 @@
 System.out.println("--------------- orderAllAction.jsp");
 //세션 유효성 검사
 if(session.getAttribute("id") == null || (session.getAttribute("user").equals("Employee"))){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=login needed");
 	return;
 }
 
@@ -53,6 +53,6 @@ for(Map<String, Object> m : list){
 	}
 }
 
-response.sendRedirect(request.getContextPath() + "/orderListForCustomer.jsp?customerId=" + id);
+response.sendRedirect(request.getContextPath() + "/order/orderListForCustomer.jsp?customerId=" + id);
 
 %>

@@ -4,7 +4,7 @@
 <%
 // 세션 유효성 검사
 if(session.getAttribute("id") == null){	
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=no authority");
 	return;
 }
 
@@ -39,7 +39,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>orderlist by user</title>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

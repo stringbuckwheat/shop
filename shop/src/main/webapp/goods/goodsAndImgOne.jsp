@@ -3,12 +3,6 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-// 세션 유효성 검사
-/* if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee"))){
-	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
-	return;
-} */
 
 int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 
@@ -43,7 +37,7 @@ width: 150px;
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5 custyle">
-				<img src="<%=request.getContextPath()%>/upload/<%=goods.get("originFilename")%>"  width="300" height="330">
+				<img src="<%=request.getContextPath()%>/upload/<%=goods.get("originFilename")%>" width="300" height="330">
 			</div>
 			<div class="col-md-7 custyle">
 				<table class="table table-striped custab">

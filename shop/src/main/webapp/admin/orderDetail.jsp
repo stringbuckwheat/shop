@@ -8,21 +8,11 @@ OrdersService ordersService = new OrdersService();
 Map<String, Object> order = ordersService.getOrderDetail(orderNo);
 String sessionId = (String)session.getAttribute("id");
 
-
+// 관리자 혹은 본인만 배송 상세페이지 확인 가능
 if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Employee")) || !(sessionId.equals(order.get("customerId")))){
-	// customer로 로그인한 사람은 loginForm -> index 
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
+	response.sendRedirect(request.getContextPath() + "/login/employeeLoginForm.jsp?errorMsg=no authority");
 	return;
 }
-
-if(session.getAttribute("id") == null){ // 로그인 안 된 회원
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=login needed");
-	return;
-} else if (!(sessionId.equals(order.get("customerId")) || session.getAttribute("user").equals("Employee"))){
-	// 주문 당사자 혹은 관리자 계정이 아니면
-	response.sendRedirect(request.getContextPath() + "/employeeLoginForm.jsp?errorMsg=no authority");
-}
-
 
 System.out.println(order);
 %>
@@ -32,7 +22,7 @@ System.out.println(order);
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Insert title here</title>
+	<title>Order Detail</title>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>

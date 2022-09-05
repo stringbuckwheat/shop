@@ -52,6 +52,15 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <body>
 	<%@include file="/header.jsp"%>
 	
+	<%
+	// errorMsg 파라미터가 존재하면 알림창으로 알려줌
+	if(request.getParameter("errorMsg") != null){
+	%>
+		<script>alert("<%=request.getParameter("errorMsg")%>")</script>
+	<%
+	}
+	%>
+	
 	
 	<div class="container">
     <h3 class="h3">전체 상품</h3>
