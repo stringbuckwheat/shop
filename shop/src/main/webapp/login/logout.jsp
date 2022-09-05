@@ -2,5 +2,5 @@
 
 <%
 session.invalidate();
-response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp");
+response.sendRedirect(request.getContextPath() + "/index.jsp");
 %>

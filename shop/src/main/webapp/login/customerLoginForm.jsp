@@ -14,12 +14,12 @@ if(session.getAttribute("id") != null){
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>customer login form</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
@@ -39,7 +39,7 @@ if(session.getAttribute("id") != null){
 					%>
 				   
 					</div>
-				   <form id="customerLoginForm" method="post" action="<%=request.getContextPath()%>/customerLoginAction.jsp">
+				   <form id="customerLoginForm" method="post" action="<%=request.getContextPath()%>/login/customerLoginAction.jsp">
 				        <div class="form-group">
 				        	<input type="text" class="form-control" name="customerId" id="customerId" placeholder="enter your id...">
 				        </div>

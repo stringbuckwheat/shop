@@ -4,7 +4,7 @@
 
 <%
 if(session.getAttribute("id") != null){
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=alreadyLogined");
+	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=already logined");
 	return;
 }
 
@@ -24,7 +24,7 @@ Customer loginCustomer = customerService.getCustomerByIdAndPw(customer);
 
 // redirect
 if(loginCustomer == null){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errMsg=loginFail");
+	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errMsg=loginFail");
 	return;
 }
 
@@ -32,5 +32,5 @@ session.setAttribute("user", "Customer");
 session.setAttribute("id", loginCustomer.getCustomerId());
 session.setAttribute("name", loginCustomer.getCustomerName());
 
-response.sendRedirect(request.getContextPath() + "/customerGoodsList.jsp");
+response.sendRedirect(request.getContextPath() + "/index.jsp");
 %>

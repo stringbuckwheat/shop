@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%
+// 로그인 한 사람
 if(session.getAttribute("id") != null){
 	response.sendRedirect(request.getContextPath() + "/index.jsp?errorMsg=already logined");
 	return;
 }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>add employee form</title>
+	<title>add Customer</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<link href="css/loginForm.css" rel="stylesheet">
+	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
@@ -27,11 +30,10 @@ if(session.getAttribute("id") != null){
 			<div class="login-form">
 				<div class="main-div">
 				   <div class="panel">
-					   <h2>관리자 회원 가입</h2>
+					   <h2>일반 회원 가입</h2>
 					   <div class="forgot text-center">
-				 	       <a href="<%=request.getContextPath()%>/addCustomerForm.jsp">일반 회원으로 가입하시겠습니까?</a>
+				 	       <a href="<%=request.getContextPath()%>/addEmployeeForm.jsp">관리자 계정으로 가입하시겠습니까?</a>
 						</div>
-					   
 						<%
 							if(request.getParameter("errorMsg") != null){
 								%>
@@ -50,32 +52,34 @@ if(session.getAttribute("id") != null){
 						
 						<br>
 						
-						<form id="employeeForm" action="<%=request.getContextPath()%>/addEmployeeAction.jsp" method="post">
+						<form id="customerForm" action="<%=request.getContextPath()%>/addCustomerAction.jsp" method="post">
 							<div class="form-group">
-				        		<input type="text" class="form-control" name="employeeId" id="employeeId" readonly="readonly">
+				        		<input type="text" class="form-control" name="customerId" id="customerId" readonly="readonly">
 					        </div>
 					        <div class="form-group">
-					            <input type="password" class="form-control" name="employeePass" id="employeePass" placeholder="비밀번호를 입력하세요">
+					            <input type="password" class="form-control" name="customerPass" id="customerPass" placeholder="비밀번호를 입력하세요">
 					        </div>
 					        <div class="form-group">
-					            <input type="text" class="form-control" name="employeeName" id="employeeName" placeholder="이름을 입력하세요">
+				        		<input type="text" class="form-control" name="customerName" id="customerName" placeholder="이름을 입력하세요">
 					        </div>
-   					        <div class="form-group">
-				        		<input type="text" class="form-control" name="employeeAddress" id="employeeAddress" readonly="readonly" placeholder="주소를 검색하세요">
+					        <div class="form-group">
+				        		<input type="text" class="form-control" name="customerAddress" id="customerAddress" readonly="readonly" placeholder="주소를 검색하세요">
    								<button type="button" class="btn btn-primary" id="addressBtn">주소 검색</button>
 					        </div>
 					        <div class="form-group">
-				        		<input type="text" class="form-control" name="employeeDetailAddress" id="employeeDetailAddress" placeholder="상세 주소를 입력하세요">
+				        		<input type="text" class="form-control" name="customerDetailAddress" id="customerDetailAddress" placeholder="상세 주소를 입력하세요">
 					        </div>
-					        <button type="button" class="btn btn-primary" id="employeeBtn">가입</button>
-						 </form>
+					        <div class="form-group">
+				        		<input type="text" class="form-control" name="customerTelephone" id="customerTelephone" placeholder="전화번호를 입력하세요">
+					        </div>
+					        <button type="button" class="btn btn-primary" id="customerBtn">가입</button>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
 </div>
@@ -131,7 +135,7 @@ function sample2_execDaumPostcode() {
             
             /////////////////////////////////
             // $('#addr').val(data.zonecode + ' ' + addr)
-            document.getElementById('employeeAddress').value = data.zonecode + ' ' + addr;
+            document.getElementById('customerAddress').value = data.zonecode + ' ' + addr;
         
             
             // 커서를 상세주소 필드로 이동한다.
@@ -183,7 +187,6 @@ function sample2_execDaumPostcode() {
 </script>
 
 <script>
-	// ajax
 	$('#idckBtn').click(function() {
 		if($('#inputId').val().length < 4) {
 			alert('id는 4자이상!');
@@ -198,33 +201,34 @@ function sample2_execDaumPostcode() {
 			success : function(json) {
 				// alert(json);
 				if(json == 'y') {
-					$('#employeeId').val($('#inputId').val());
+					$('#customerId').val($('#inputId').val());
 					return;
 				}
 				
 				alert('이미 사용중인 아이디 입니다.');
-				$('#employeeId').val('');
+				$('#customerId').val('');
 			} // end for success
 		}); // end for ajax
 	});
 
-	// 빈칸검사
-	$('#employeeBtn').click(function(){		
-		if($('#employeeId').val() == ''){
-			alert('아이디를 입력하세요');
-		} else if($('#employeePass').val() == ''){
-			alert('패스워드를 입력하세요');
-		} else if($('#employeeName').val() == ''){
-			alert('이름을 입력하세요');
-		} else if($('#employeeAddress').val() == ''){
-			alert('주소를 검색하세요');
-		} else if($('#employeeDetailAddress').val() == ''){
-			alert('상세 주소를 입력하세요');
+	// 고객 빈칸검사
+	$('#customerBtn').click(function(){		
+		if($('#customerId').val() == ''){
+			alert('고객 아이디를 입력하세요');
+		} else if($('#customerPass').val() == ''){
+			alert('고객 패스워드를 입력하세요');
+		} else if($('#customerName').val() == ''){
+			alert('성함을 입력하세요');
+		} else if($('#customerAddress').val() == ''){
+			alert('주소를 입력하세요');
+		} else if($('#customerDetailAddress').val() == ''){
+			alert('상세주소를 입력하세요');
+		} else if($('#customerTelephone').val() == ''){
+			alert('전화번호를 입력하세요');
 		} else {
-			$('#employeeForm').submit();
+			$('#customerForm').submit();
 		}
 	});
 </script>
 
-</body>
 </html>

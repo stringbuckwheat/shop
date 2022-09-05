@@ -1,103 +1,172 @@
-<%@page import="service.CounterService"%>
+<%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "service.GoodsService" %>
 <%
+// Controller: java class <- Servlet
 
-if(session.getAttribute("id") == null){
-	response.sendRedirect(request.getContextPath() + "/customerLoginForm.jsp?errorMsg=Login needed");
-	return;
+int rowPerPage = 20;
+
+String sortBy = "new"; // default값 최신순
+if(request.getParameter("sortBy") != null){
+	sortBy = request.getParameter("sortBy"); // 20개씩 보기, 30개씩 보기
 }
 
-/* 
-index.jsp -> 사원으로 로그인한 경우 관리자 페이지 링크(adminIndex.jsp)
-adminIndex.jsp -> 사원관리, 상품관리, 고객관리, 주문관리, 공지 관리
-1) 사원관리(리스트): employeeList.jsp -> EmployeeService.getEmployeeList(int rowPerPage, int currentPage): beginRow 구하기 -> EmployeeDao.selectEmployeeList(int rowPerPage, int beginRow)
-					여기서 active 값 N을 Y로 수정할 수 있도록! (select 상자) -> EmployeeService.modifyEmployeeActive() -> EmployeeDao.updateEmployeeActive()
-*/
+if(request.getParameter("rowPerPage") != null){
+	rowPerPage = Integer.parseInt(request.getParameter("rowPerPage")); // 20개씩 보기, 30개씩 보기
+}
 
-CounterService counterService = new CounterService();
+int currentPage = 1;
+if(request.getParameter("currentPage") != null){
+	currentPage =  Integer.parseInt(request.getParameter("currentPage"));
+}
 
-int totalCounter = counterService.getTotalCount();
-int todayCounter = counterService.getTodayCount();
-int currentCount = (Integer)(application.getAttribute("currentCounter"));
+GoodsService goodsService = new GoodsService();
+List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy);
+
+System.out.println("jsp: " + customerGoodsList);
+System.out.println("customerGoodsList.size: " + customerGoodsList.size());
+// 분리하면 servlet / 연결기술 forward(request, response) - include와 비슷 / jsp
+
+int lastPage = goodsService.getLastPage(rowPerPage);
+int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
+int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
+pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 %>
 
+<!-- VIEW: 태그 -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>index</title>
+	<title>customerGoodsList</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-	<link href="<%=request.getContextPath()%>/css/adminIndex.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/goodsList.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
-	<div class="container">
-	    <div class="row col-md-8 col-md-offset-1 custyle">
-	    	<h2>MYPAGE</h2>
 	
-			<div>
-				총 방문자 수: <%=totalCounter%>
-			</div>
-			<div>
-				오늘 방문자 수: <%=todayCounter%>
-			</div>
-			<div>
-				동시 접속자 수: <%=currentCount%>
-			</div>
-			
+	
+	<div class="container">
+    <h3 class="h3">전체 상품</h3>
+    <!-- for / if 대체 기술: custom tag(JSTL 라이브러리, EL) -->
+	<div>
+		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=popular">인기순</a> <!-- 조회수? -->
+		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=sales">판매량순</a> 
+		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=lowPrice">낮은가격순</a>
+		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=highPrice">높은가격순</a>
+		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=new">최신순</a> <!-- 기본값 -->
+	</div>
+	
+	<form action="<%=request.getContextPath()%>/index.jsp" method="get">
+		<select name="rowPerPage">
 			<%
-			if(request.getParameter("errorMsg") != null){
+			if(rowPerPage == 40){
 			%>
-				<div>
-					<span class="err-msg"><%=request.getParameter("errorMsg")%></span>
-				</div>
+				<option value="20">20개 씩 보기</option>
+				<option value="40" selected=“selected”>40개 씩 보기</option>
+							
+			<%
+			} else {
+			%>
+				<option value="20" selected=“selected”>20개 씩 보기</option>
+				<option value="40">40개 씩 보기</option>
 			<%
 			}
 			%>
-			
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- Bootsnipp -->
-			<ins class="adsbygoogle"
-			     style="display:block"
-			     data-ad-client="ca-pub-7749520983305929"
-			     data-ad-slot="1217000491"
-			     data-ad-format="auto"></ins>
-			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-			
-			<div class="well text-center">
-		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/outIdForm.jsp">회원 탈퇴</a>
-		         </button>
-		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/customerGoodsList.jsp">쇼핑하기</a>
-		         </button>
-		        
-		 	
-					<%
-					if("Employee".equals(session.getAttribute("user"))){
-					%>
-						<button type="button" class="btn btn-sunny text-uppercase">
-				         	<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
-				         </button>
-					<%
-					}
-					%>
-			</div>
-		</div>
+		</select>
+		<button type="submit" class="btn btn-warning">확인</button>
+	</form>
+	
+    <div class="row">
+    	<!-- 카드 -->
+    	
+		<%
+		for(int i = 0; i < customerGoodsList.size(); i++){
+			Map<String, Object> m = customerGoodsList.get(i);
+		%>
+    	
+        <div class="col-md-3 col-sm-6">
+            <div class="product-grid2">
+                <div class="product-image2">
+                    <a href="<%=request.getContextPath()%>/goods/goodsAndImgOne.jsp?goodsNo=<%=m.get("goodsNo")%>">
+                        <img class="pic-1" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
+                        <img class="pic-2" src="<%=request.getContextPath()%>/upload/<%=m.get("filename")%>">
+                    </a>
+                    <% 
+                    if(m.get("soldOut").equals("N")){ // 주문 가능한 경우
+                    %>
+	                    <a class="add-to-cart" href="<%=request.getContextPath()%>/cart/addCartAction.jsp?goodsNo=<%=m.get("goodsNo")%>">
+	                    	Add to cart
+	                    </a>
+                    <%
+                    } else { // 품절 상품인 경우
+                    %>
+                    	<a class="add-to-cart">
+	                    	품절 상품입니다
+	                    </a>
+                    <%
+                    }
+                    %>
+                </div>
+                <div class="product-content">
+                    <h3 class="title"><a href="#"><%=m.get("goodsName")%></a></h3>
+                    <span class="price"><%=m.get("goodsPrice")%></span>
+                </div>
+            </div> <!-- for grid2 -->
+        </div><!-- for col -->
+       <!--end -->
+       <%
+       		if(i % 4 == 3) {
+       			%>
+       			   </div><div class="row">
+       			<%
+       		}
+		}
+       %>
+       <!-- here -->
+    </div>
+
+		<div class="container">
+			<ul class="pagination">
+				<%	
+				// 이전 페이징
+				if(pageBegin > rowPerPage){
+				%>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/index.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">이전</a></li>
+				<%
+				}
+				
+				// 숫자 페이징
+				for(int i = pageBegin; i <= pageEnd; i++){
+				%>			
+				  <li class="page-item">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/index.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
+				  		<%=i%>
+				  	</a>
+				  </li>
+			  	<%
+				}
+				
+				// 다음 페이징
+				if(pageEnd < lastPage){
+				%>
+				  	<li class="page-item">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/index.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
+					  		다음
+					  	</a>
+				  	</li>
+				<%
+				}
+				%>
+		</ul>
+	</div>
 	</div>
 </body>
 </html>
