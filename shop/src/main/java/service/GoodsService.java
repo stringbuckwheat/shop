@@ -135,7 +135,7 @@ public class GoodsService {
 	}
 
 	// 페이징 용도
-	public int getLastPage(int rowPerPage) {
+	public int getLastPage(int rowPerPage, int categoryId) {
 		System.out.println("------------------------------ GoodsService.getLastPage()");
 
 		Connection conn = null;
@@ -146,7 +146,7 @@ public class GoodsService {
 			conn = dbUtil.getConnection();
 			
 			this.goodsDao = new GoodsDao();
-			int cnt = goodsDao.countAllGoods(conn);
+			int cnt = goodsDao.countAllGoods(conn, categoryId);
 			
 			lastPage = (int) Math.ceil(cnt / (double) rowPerPage); // lastPage 여기서 구해서 넘기기
 
@@ -166,7 +166,7 @@ public class GoodsService {
 	}
 	
 	// 고객 상품 리스트 + beginRow 넘겨주기
-	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage, String sortBy) throws SQLException {
+	public List<Map<String, Object>> getCustomerGoodsListByPage(int rowPerPage, int currentPage, String sortBy, int categoryId) throws SQLException {
 		System.out.println("------------------------------ GoodsService.getCustomerGoodsListByPage()");
 
 		Connection conn = null;
@@ -178,7 +178,7 @@ public class GoodsService {
 			int beginRow = (currentPage - 1) * rowPerPage; // beginRow 구해서 넘기기
 			
 			this.goodsDao = new GoodsDao();
-			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, sortBy);
+			list = goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, sortBy, categoryId);
 			
 		} catch(Exception e) {
 			
@@ -195,4 +195,33 @@ public class GoodsService {
 		return list;
 	}
 	
+	// 검색
+	public List<Map<String, Object>> getGoodsListBySearch(String search){
+		System.out.println("------------------------------ GoodsService.getGoodsListBySearch()");
+		System.out.println(search);
+
+		Connection conn = null;
+		List<Map<String, Object>> list = null;
+		
+		try {
+			this.dbUtil = new DBUtil();
+			conn = dbUtil.getConnection();
+			
+			this.goodsDao = new GoodsDao();
+			list = goodsDao.selectGoodsListBySearch(conn, search);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 }

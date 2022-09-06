@@ -71,11 +71,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
     <!-- 카테고리 별 인기상품이 들어갈 자리 -->
     
 	<div>
-		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=popular&categoryId=<%=categoryId%>">인기순</a> <!-- 조회수? -->
-		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=sales&categoryId=<%=categoryId%>">판매량순</a> 
-		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=lowPrice&categoryId=<%=categoryId%>">낮은가격순</a>
-		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=highPrice&categoryId=<%=categoryId%>">높은가격순</a>
-		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=new&categoryId=<%=categoryId%>">최신순</a> <!-- 기본값 -->
+		<a href="<%=request.getContextPath()%>/goods/goodsList.jsp?sortBy=popular&categoryId=<%=categoryId%>">인기순</a> <!-- 조회수? -->
+		<a href="<%=request.getContextPath()%>/goods/goodsList.jsp?sortBy=sales&categoryId=<%=categoryId%>">판매량순</a> 
+		<a href="<%=request.getContextPath()%>/goods/goodsList.jsp?sortBy=lowPrice&categoryId=<%=categoryId%>">낮은가격순</a>
+		<a href="<%=request.getContextPath()%>/goods/goodsList.jsp?sortBy=highPrice&categoryId=<%=categoryId%>">높은가격순</a>
+		<a href="<%=request.getContextPath()%>/goods/goodsList.jsp?sortBy=new&categoryId=<%=categoryId%>">최신순</a> <!-- 기본값 -->
 	</div>
 	
 	<form action="<%=request.getContextPath()%>/index.jsp" method="get">
@@ -156,7 +156,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				// 이전 페이징
 				if(pageBegin > rowPerPage){
 				%>
-					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">이전</a></li>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/goods/goodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">이전</a></li>
 				<%
 				}
 				
@@ -164,7 +164,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				for(int i = pageBegin; i <= pageEnd; i++){
 				%>			
 				  <li class="page-item">
-				  	<a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/goods/goodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
 				  		<%=i%>
 				  	</a>
 				  </li>
@@ -175,7 +175,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				if(pageEnd < lastPage){
 				%>
 				  	<li class="page-item">
-					  	<a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/goods/goodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
 					  		다음
 					  	</a>
 				  	</li>

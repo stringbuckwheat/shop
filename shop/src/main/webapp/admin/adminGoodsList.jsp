@@ -21,7 +21,7 @@ final int rowPerPage = 10; // 페이지 당 출력할 글 개수
 GoodsService goodsService = new GoodsService();
 List<Goods> goodsList = goodsService.getGoodsListByPage(rowPerPage, currentPage);
 
-int lastPage = goodsService.getLastPage(rowPerPage);
+int lastPage = goodsService.getLastPage(rowPerPage, 0);
 int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd

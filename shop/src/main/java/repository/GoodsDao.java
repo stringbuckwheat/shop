@@ -6,6 +6,13 @@ import java.util.*;
 import vo.Goods;
 
 public class GoodsDao {
+	/*
+	 * int insertGoods(Connection conn, Goods goods) - 상품 추가
+	 * List<Goods> selectGoodsListByPage(Connection conn, int rowPerPage, int beginRow) - 상품 리스트
+	 * int countAllGoods(Connection conn)
+	 * Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) - 상세 페이지
+	 * List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow, String sortBy, int categoryId) - 
+	 */
 
 	// 상품 추가 메소드 --  Statement.RETURN_GENERATED_KEYS
 	public int insertGoods(Connection conn, Goods goods) throws Exception {
@@ -88,10 +95,14 @@ public class GoodsDao {
 	}
 
 	// 페이징
-	public int countAllGoods(Connection conn) throws Exception {
+	public int countAllGoods(Connection conn, int categoryId) throws Exception {
 		System.out.println("------------------------------ GoodsDao.countAllGoods()");
 		int lastPage = 0;
 		String sql = "select count(*) cnt FROM goods";
+		
+		if(categoryId != 0) {
+			sql += " where category_id = " + categoryId;
+		}
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -164,66 +175,52 @@ public class GoodsDao {
 	}
 
 	// 고객 상품리스트 페이지 정렬
-	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow, String sortBy) throws SQLException {
+	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, int rowPerPage, int beginRow, String sortBy, int categoryId) throws SQLException {
 		System.out.println("------------------------------ GoodsDao.selectCustomerGoodsListByPage()");
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		String sql = ""; // 파라미터에 따른 정렬 쿼리를 담을 변수
-
-		String sortByNew = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename "
-				+ " FROM goods g" 
-				+ " INNER JOIN goods_img gi ON g.goods_no = gi.goods_no"
-				+ " ORDER BY g.create_date desc " 
-				+ " limit ?, ?";
-
-		String sortByPopular = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, g.hit"
-				+ " FROM goods g" + " INNER JOIN goods_img gi" 
-				+ " ON g.goods_no = gi.goods_no" 
-				+ " ORDER BY g.hit desc"
-				+ " limit ?, ?";
-
-		String sortBySales = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, ifnull(sum(o.order_quantity), 0) sum"
-				+ " from goods g" 
-				+ " left join orders o" 
-				+ " on g.goods_no = o.goods_no" 
-				+ " INNER JOIN goods_img gi "
-				+ " ON g.goods_no = gi.goods_no " 
-				+ " group by g.goods_no" 
-				+ " order by sum desc" 
-				+ " limit ?, ?";
-
-		String sortByHighPrice = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, g.hit "
+		String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, g.hit "
 				+ " FROM goods g" 
 				+ " INNER JOIN goods_img gi"
-				+ " ON g.goods_no = gi.goods_no"
-				+ " ORDER BY g.goods_price desc" 
-				+ " limit ?, ?";
-
-		String sortByLowPrice = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, g.hit "
-				+ " FROM goods g" 
-				+ " INNER JOIN goods_img gi " 
-				+ " ON g.goods_no = gi.goods_no "
-				+ " ORDER BY g.goods_price" 
-				+ " limit ?, ?";
-
+				+ " ON g.goods_no = gi.goods_no";
+		
+		if(categoryId != 0) {
+			sql += " where g.category_id = " + categoryId;
+		}
+		
 		// 정렬 쿼리 분기
 		if (sortBy == null || sortBy.equals("new")) { // || 특성상 NPE 안 남
-			sql = sortByNew;
+			sql += " ORDER BY g.create_date desc ";
 			System.out.println("최신순 정렬(기본값)");
 		} else if (sortBy.equals("popular")) {
-			sql = sortByPopular;
+			sql += " ORDER BY g.hit desc";
 			System.out.println("인기순 정렬");
 		} else if (sortBy.equals("sales")) {
-			sql = sortBySales;
+			// += 아니고 대입
+			sql = "select g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, ifnull(sum(o.order_quantity), 0) sum"
+					+ " from goods g" 
+					+ " left join orders o" 
+					+ " on g.goods_no = o.goods_no" 
+					+ " INNER JOIN goods_img gi "
+					+ " ON g.goods_no = gi.goods_no ";
+			
+			if(categoryId != 0) {
+				sql += " where g.category_id = " + categoryId;
+			}
+
+			sql += " group by g.goods_no order by sum desc";
 			System.out.println("판매순 정렬");
+			
 		} else if (sortBy.equals("highPrice")) {
-			sql = sortByHighPrice;
+			sql += " ORDER BY g.goods_price desc";
 			System.out.println("높은 가격순 정렬");
 		} else if (sortBy.equals("lowPrice")) {
-			sql = sortByLowPrice;
+			sql += " ORDER BY g.goods_price";
 			System.out.println("낮은 가격순 정렬");
 		}
 
+		sql += " limit ?, ?";
+		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
@@ -247,7 +244,7 @@ public class GoodsDao {
 
 					// getInt, getString 분기 -- 타입 검사 메소드
 					if (tmp.equals("goodsNo") || tmp.equals("goodsPrice") || tmp.equals("orderNo")
-							|| tmp.equals("orderQuantity") || tmp.equals("orderPrice") || tmp.equals("sum")) {
+							|| tmp.equals("orderQuantity") || tmp.equals("orderPrice") || tmp.equals("sum") || tmp.equals("hit")) {
 						m.put(tmp, rs.getInt(rsmd.getColumnLabel(i)));
 						continue;
 					}
@@ -269,6 +266,56 @@ public class GoodsDao {
 
 		System.out.println("list: " + list.size());
 		// System.out.println(list);
+		return list;
+	}
+	
+	public List<Map<String, Object>> selectGoodsListBySearch(Connection conn, String search) throws Exception{
+		System.out.println("------------------------------ GoodsDao.selectGoodsListBySearch()");
+		System.out.println(search);
+
+		List<Map<String, Object>> list = new ArrayList<>();
+		String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename, g.hit"
+				+ " FROM goods g"
+				+ " INNER JOIN goods_img gi"
+				+ " ON g.goods_no = gi.goods_no"
+				+ " where g.goods_name like concat('%', ?, '%')";
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, search);
+			
+			System.out.println(stmt);
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				Map<String, Object> m = new HashMap<>();
+				
+				 m.put("goodsNo", rs.getInt("goodsNo"));
+				 m.put("goodsName", rs.getString("goodsName"));
+				 m.put("goodsPrice", rs.getInt("goodsPrice"));
+				 m.put("soldOut", rs.getString("soldOut"));
+				 m.put("filename", rs.getString("filename"));
+				 m.put("hit", rs.getInt("hit"));
+				 
+				 list.add(m);
+			}
+			    
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		System.out.println(list.size());
+		System.out.println(list);
+		
 		return list;
 	}
 

@@ -58,9 +58,11 @@
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="fa fa-bars"></span> Menu
 	      </button>
-				<form action="#" class="searchform order-lg-last">
+
+	    <!-- 검색 -->
+		<form method="get" action="<%=request.getContextPath()%>/goods/searchGoods.jsp" class="searchform order-lg-last">
           <div class="form-group d-flex">
-            <input type="text" class="form-control pl-3" placeholder="Search">
+            <input type="text" class="form-control pl-3" placeholder="Search" name="search">
             <button type="submit" class="form-control search"><span class="fa fa-search"></span></button>
           </div>
         </form>
