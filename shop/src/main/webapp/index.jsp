@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.GoodsService" %>
@@ -21,13 +22,14 @@ if(request.getParameter("currentPage") != null){
 }
 
 GoodsService goodsService = new GoodsService();
-List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy);
+// catego
+List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy, 0);
 
 System.out.println("jsp: " + customerGoodsList);
 System.out.println("customerGoodsList.size: " + customerGoodsList.size());
 // 분리하면 servlet / 연결기술 forward(request, response) - include와 비슷 / jsp
 
-int lastPage = goodsService.getLastPage(rowPerPage);
+int lastPage = goodsService.getLastPage(rowPerPage, 0);
 int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
@@ -122,11 +124,14 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	                    </a>
                     <%
                     }
+                    
+                    // 12345로 저장된 가격을 ￦12,345로 표시하기 위해
+                    NumberFormat nf = NumberFormat.getCurrencyInstance( Locale.KOREA );
                     %>
                 </div>
                 <div class="product-content">
-                    <h3 class="title"><a href="#"><%=m.get("goodsName")%></a></h3>
-                    <span class="price"><%=m.get("goodsPrice")%></span>
+                    <h3 class="title"><a href="<%=request.getContextPath()%>/goods/goodsAndImgOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><%=m.get("goodsName")%></a></h3>
+                    <span class="price"><%=nf.format(m.get("goodsPrice"))%></span>
                 </div>
             </div> <!-- for grid2 -->
         </div><!-- for col -->

@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="service.CategoryService"%>
 <%@page import="service.CounterService"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     <meta charset="utf-8">
 	<section class="ftco-section">
@@ -86,16 +87,17 @@
 	              }
 	              %>
             	<!-- 카테고리 -->
+            	
             	<li class="nav-item dropdown">
             		<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/index.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORY</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown04">
 							<%
-								CategoryService categoryService = new CategoryService();
-								List<Category> categoryList = categoryService.getCategoryList();
+								CategoryService cs = new CategoryService();
+								List<Category> cl = cs.getCategoryList();
 								
-								for(Category c : categoryList){
+								for(Category c : cl){
 							%>
-									<a class="dropdown-item" href="<%=request.getContextPath()%>/categoryGoodsList.jsp?categoryId=<%=c.getCategoryId()%>"><%=c.getCategoryName()%></a>
+									<a class="dropdown-item" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?categoryId=<%=c.getCategoryId()%>"><%=c.getCategoryName()%></a>
 						
 							<%
 								}
@@ -103,7 +105,7 @@
 							
 						</div>
             	</li>
-            
+             
 	        	<li class="nav-item"><a href="<%=request.getContextPath()%>/order/orderListForCustomer.jsp?customerId=<%=(String)session.getAttribute("id")%>" class="nav-link">ORDER</a></li>
 	        	<li class="nav-item"><a href="<%=request.getContextPath()%>/cart/cartList.jsp" class="nav-link">CART</a></li>
 	          	<li class="nav-item"><a href="<%=request.getContextPath()%>/notice/noticeList.jsp" class="nav-link">NOTICE</a></li>
@@ -115,3 +117,8 @@
     <!-- END nav -->
 
 	</section>
+	<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/main.js"></script>
+	<script src="<%=request.getContextPath()%>/js/popper.js"></script>
+	

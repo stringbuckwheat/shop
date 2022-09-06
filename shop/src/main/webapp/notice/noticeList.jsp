@@ -65,7 +65,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 		
 		<%
 		// 관리자 회원에게만 글쓰기 버튼 노출
-		if((session.getAttribute("user").equals("Employee"))){
+		if(session.getAttribute("user") != null && session.getAttribute("user").equals("Employee")){
 		%>
 			<div class="container text-right">
 				<a href="<%=request.getContextPath()%>/notice/addNoticeForm.jsp" class="btn btn-warning">글쓰기</a>

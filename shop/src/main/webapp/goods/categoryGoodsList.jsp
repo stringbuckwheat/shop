@@ -1,10 +1,11 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.GoodsService" %>
 <%
 //////////////////////// 카테고리 별 goodsList
-// Controller: java class <- Servlet
 
+// 파라미터 받아오기
 int rowPerPage = 20;
 
 String sortBy = "new"; // default값 최신순
@@ -21,14 +22,25 @@ if(request.getParameter("currentPage") != null){
 	currentPage =  Integer.parseInt(request.getParameter("currentPage"));
 }
 
+int categoryId = 0;
+if(request.getParameter("categoryId") != null){
+	categoryId = Integer.parseInt(request.getParameter("categoryId"));
+}
+
+// 카테고리 이름 띄우기
+// 파라미터로 받아온 categoryId를 사용해 해당 카테고리의 이름을 가져온다
+CategoryService categoryService = new CategoryService();
+String categoryName = categoryService.getCategoryNameOne(categoryId);
+
+// 해당 카테고리의 모든 상품 리스트를 가져온다
 GoodsService goodsService = new GoodsService();
-List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy);
+List<Map<String, Object>> goodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy, categoryId);
 
-System.out.println("jsp: " + customerGoodsList);
-System.out.println("customerGoodsList.size: " + customerGoodsList.size());
-// 분리하면 servlet / 연결기술 forward(request, response) - include와 비슷 / jsp
+System.out.println("jsp: " + goodsList);
+System.out.println("goodsList.size: " + goodsList.size());
 
-int lastPage = goodsService.getLastPage(rowPerPage);
+// 페이징
+int lastPage = goodsService.getLastPage(rowPerPage, categoryId);
 int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
 int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
 pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
@@ -53,18 +65,17 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <body>
 	<%@include file="/header.jsp"%>
 	
-	
 	<div class="container">
-    <h3 class="h3">카테고리이름 카테고리이름</h3>
+    <h3 class="h3"><%=categoryName%></h3>
     
     <!-- 카테고리 별 인기상품이 들어갈 자리 -->
     
 	<div>
-		<a href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?sortBy=popular">인기순</a> <!-- 조회수? -->
-		<a href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?sortBy=sales">판매량순</a> 
-		<a href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?sortBy=lowPrice">낮은가격순</a>
-		<a href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?sortBy=highPrice">높은가격순</a>
-		<a href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?sortBy=new">최신순</a> <!-- 기본값 -->
+		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=popular&categoryId=<%=categoryId%>">인기순</a> <!-- 조회수? -->
+		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=sales&categoryId=<%=categoryId%>">판매량순</a> 
+		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=lowPrice&categoryId=<%=categoryId%>">낮은가격순</a>
+		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=highPrice&categoryId=<%=categoryId%>">높은가격순</a>
+		<a href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?sortBy=new&categoryId=<%=categoryId%>">최신순</a> <!-- 기본값 -->
 	</div>
 	
 	<form action="<%=request.getContextPath()%>/index.jsp" method="get">
@@ -91,8 +102,8 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
     	<!-- 카드 -->
     	
 		<%
-		for(int i = 0; i < customerGoodsList.size(); i++){
-			Map<String, Object> m = customerGoodsList.get(i);
+		for(int i = 0; i < goodsList.size(); i++){
+			Map<String, Object> m = goodsList.get(i);
 		%>
     	
         <div class="col-md-3 col-sm-6">
@@ -116,11 +127,14 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	                    </a>
                     <%
                     }
+                    
+            		// 12345로 저장된 가격을 ￦12,345로 표시하기 위해
+                    NumberFormat nf = NumberFormat.getCurrencyInstance( Locale.KOREA );
                     %>
                 </div>
                 <div class="product-content">
-                    <h3 class="title"><a href="#"><%=m.get("goodsName")%></a></h3>
-                    <span class="price"><%=m.get("goodsPrice")%></span>
+                    <h3 class="title"><a href="<%=request.getContextPath()%>/goods/goodsAndImgOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><%=m.get("goodsName")%></a></h3>
+                    <span class="price"><%=nf.format(m.get("goodsPrice"))%></span>
                 </div>
             </div> <!-- for grid2 -->
         </div><!-- for col -->
@@ -142,7 +156,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				// 이전 페이징
 				if(pageBegin > rowPerPage){
 				%>
-					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">이전</a></li>
+					<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=pageBegin - rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">이전</a></li>
 				<%
 				}
 				
@@ -150,7 +164,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				for(int i = pageBegin; i <= pageEnd; i++){
 				%>			
 				  <li class="page-item">
-				  	<a class="page-link" href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
+				  	<a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=i%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
 				  		<%=i%>
 				  	</a>
 				  </li>
@@ -161,7 +175,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				if(pageEnd < lastPage){
 				%>
 				  	<li class="page-item">
-					  	<a class="page-link" href="<%=request.getContextPath()%>/goods/customerGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>">
+					  	<a class="page-link" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?currentPage=<%=pageBegin + rowPerPage%>&rowPerPage=<%=rowPerPage%>&sortBy=<%=sortBy%>&categoryId=<%=categoryId%>">
 					  		다음
 					  	</a>
 				  	</li>
