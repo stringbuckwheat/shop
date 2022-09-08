@@ -57,16 +57,29 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				    	<%for(String title : orderList.get(0).keySet()){%>
 					    	<th><%=title%></th>
 				    	<%}%>
+				    	<th>리뷰</th>
 			    	</tr>
 			    </thead>
 			    <tbody>
-			    	<%for(Map<String, Object> m : orderList){%>
+			    	<%
+			    	for(Map<String, Object> m : orderList){
+			    	%>
 						<tr>
-							<%for(Object data : m.values()){%>
+							<%
+							for(Object data : m.values()){
+							%>
 								<td><%=data%></td>
-							<%}%>
+							<%
+							}
+							// review에 필요한 것: order_no, review_content, create_date, update_date, rating
+							%>
+							<td>
+								<a href="<%=request.getContextPath()%>/review/addReviewForm.jsp?orderNo=<%=m.get("orderNo")%>" class='btn btn-info btn-xs'>리뷰 작성</a>
+							</td>
 						</tr>
-						<%}%>
+						<%
+						}
+						%>
 			    </tbody>
 			</table>
 		</div>

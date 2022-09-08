@@ -1,7 +1,7 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import = "service.GoodsService" %>
+<%@page import = "service.GoodsService" %>
 <%
 // Controller: java class <- Servlet
 
@@ -40,10 +40,10 @@ if(request.getParameter("search") != null){
 }
 
 //페이징
-	int lastPage = goodsService.getLastPage(rowPerPage, 0);
-	int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
-	int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
-	pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
+int lastPage = goodsService.getLastPage(rowPerPage, 0);
+int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
+int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
+pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 
 %>
 

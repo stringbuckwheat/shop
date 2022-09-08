@@ -204,7 +204,7 @@ public class OrdersDao {
 				Map<String, Object> m = new HashMap<>();
 				
 				for(int i=1 ; i<=columnCnt; i++){
-					String tmp = rsmd.getColumnName(i);
+					String tmp = rsmd.getColumnLabel(i);
 					
 					// getInt, getString 분기
 					if(tmp.equals("orderNo") || tmp.equals("goodsNo") || tmp.equals("orderQuantity") || tmp.equals("orderPrice")) {

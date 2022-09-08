@@ -97,7 +97,7 @@
 								
 								for(Category c : cl){
 							%>
-									<a class="dropdown-item" href="<%=request.getContextPath()%>/goods/categoryGoodsList.jsp?categoryId=<%=c.getCategoryId()%>"><%=c.getCategoryName()%></a>
+									<a class="dropdown-item" href="<%=request.getContextPath()%>/goods/goodsList.jsp?categoryId=<%=c.getCategoryId()%>"><%=c.getCategoryName()%></a>
 						
 							<%
 								}

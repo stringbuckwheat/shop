@@ -37,24 +37,11 @@ int currentCount = (Integer)(application.getAttribute("currentCounter"));
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/button.css">
 </head>
 <body>
 	<%@include file="/header.jsp"%>
 	<div class="container">
-	    <div class="row col-md-8 col-md-offset-1 custyle">
-	    	<h2>MYPAGE</h2>
-	
-			<div>
-				총 방문자 수: <%=totalCounter%>
-			</div>
-			<div>
-				오늘 방문자 수: <%=todayCounter%>
-			</div>
-			<div>
-				동시 접속자 수: <%=currentCount%>
-			</div>
-			
+	    	
 			<%
 			if(request.getParameter("errorMsg") != null){
 			%>
@@ -64,38 +51,34 @@ int currentCount = (Integer)(application.getAttribute("currentCounter"));
 			<%
 			}
 			%>
-			
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- Bootsnipp -->
-			<ins class="adsbygoogle"
-			     style="display:block"
-			     data-ad-client="ca-pub-7749520983305929"
-			     data-ad-slot="1217000491"
-			     data-ad-format="auto"></ins>
-			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-			
-			<div class="well text-center">
-		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/member/outIdForm.jsp">회원 탈퇴</a>
-		         </button>
-		         <button type="button" class="btn btn-sunny text-uppercase">
-		         	<a href="<%=request.getContextPath()%>/index.jsp">쇼핑하기</a>
-		         </button>
-		        
-		 	
-					<%
-					if("Employee".equals(session.getAttribute("user"))){
-					%>
-						<button type="button" class="btn btn-sunny text-uppercase">
-				         	<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
-				         </button>
-					<%
-					}
-					%>
-			</div>
+	    	
+	    	<h2>MYPAGE</h2>
+	
+				<div>
+					총 방문자 수: <%=totalCounter%>
+				</div>
+				<div>
+					오늘 방문자 수: <%=todayCounter%>
+				</div>
+				<div>
+					동시 접속자 수: <%=currentCount%>
+				</div>
+				<div>
+					<a href="<%=request.getContextPath()%>/order/orderListForCustomer.jsp?customerId=<%=session.getAttribute("id")%>">주문 내역 조회</a>
+				</div>
+				<div>
+					<a href="<%=request.getContextPath()%>/member/outIdForm.jsp">회원 탈퇴</a>
+				</div>
+		    
+				<%
+				if("Employee".equals(session.getAttribute("user"))){
+				%>
+					<div>
+			         	<a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
+			        </div>
+				<%
+				}
+				%>
 		</div>
-	</div>
 </body>
 </html>
