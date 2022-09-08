@@ -31,7 +31,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charse t="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>admin goods list</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -77,12 +77,12 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 									if(g.getSoldOut().equals("N")){
 								%>
 									<option value="Y">Y</option>
-									<option selected=“selected” value="N">N</option>
+									<option selected value="N">N</option>
 								<%
 								} else {
 								%>
 									<option value="N">N</option>
-									<option selected=“selected” value="Y">Y</option>
+									<option selected value="Y">Y</option>
 								<%
 								}
 								%>

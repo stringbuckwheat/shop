@@ -28,7 +28,7 @@ if(session.getAttribute("id") != null){
 			<div class="login-form">
 				<div class="main-div">
 				   <div class="panel">
-				   <h2>Customer Login</h2>
+				   <h2>일반 회원 로그인</h2>
 				   <%
 					if(request.getParameter("errorMsg") != null){
 					%>
@@ -40,15 +40,15 @@ if(session.getAttribute("id") != null){
 					</div>
 				   <form id="customerLoginForm" method="post" action="<%=request.getContextPath()%>/login/customerLoginAction.jsp">
 				        <div class="form-group">
-				        	<input type="text" class="form-control" name="customerId" id="customerId" placeholder="enter your id...">
+				        	<input type="text" class="form-control" name="customerId" id="customerId" placeholder="ID">
 				        </div>
 				        <div class="form-group">
-				            <input type="password" class="form-control" name="customerPass" id="customerPass" placeholder="enter your password...">
+				            <input type="password" class="form-control" name="customerPass" id="customerPass" placeholder="Password">
 				        </div>
 				        <div class="forgot">
-				 	       <a href="<%=request.getContextPath()%>/addCustomerForm.jsp">Sign Up</a>
+				 	       <a href="<%=request.getContextPath()%>/member/addCustomerForm.jsp">일반회원으로 가입하기</a>
 						</div>
-				        <button type="button" class="btn btn-primary" id="customerLoginBtn">Login</button>
+				        <button type="button" class="btn btn-primary" id="customerLoginBtn">로그인</button>
 				        <div class="forgot text-center">
 				 	       <a href="<%=request.getContextPath()%>/login/employeeLoginForm.jsp">관리자 로그인</a>
 						</div>

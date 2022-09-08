@@ -60,7 +60,7 @@
 	      </button>
 
 	    <!-- 검색 -->
-		<form method="get" action="<%=request.getContextPath()%>/goods/searchGoods.jsp" class="searchform order-lg-last">
+		<form method="get" action="<%=request.getContextPath()%>/index.jsp" class="searchform order-lg-last">
           <div class="form-group d-flex">
             <input type="text" class="form-control pl-3" placeholder="Search" name="search">
             <button type="submit" class="form-control search"><span class="fa fa-search"></span></button>
@@ -70,26 +70,24 @@
 	        <ul class="navbar-nav mr-auto">
 	        	<li class="nav-item active"><a href="<%=request.getContextPath()%>/index.jsp" class="nav-link">Home</a></li>
 				<%
-			       	 // 세션에 저장된 유저 타입이 '직원'이면 admin 메뉴를 보여줌
-		       		 if("Employee".equals(session.getAttribute("user"))){
-		       		%>
+					// 세션에 저장된 유저 타입이 '직원'이면 admin 메뉴를 보여줌
+					if("Employee".equals(session.getAttribute("user"))){
+				%>
 	        	<li class="nav-item dropdown">
-			        
-		              <a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/admin/adminIndex.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN</a>
-		              <div class="dropdown-menu" aria-labelledby="dropdown04">
-		              	<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a>
-		                <a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a>
-		                <a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a>
-		                <a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
-		                <a class="dropdown-item" href="<%=request.getContextPath()%>/notice/noticeList.jsp">공지관리</a>
-		              </div>
-	             
-            	</li>
+					<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/admin/adminIndex.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMIN</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a>
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/employeeList.jsp">사원관리</a>
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">상품관리</a>
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminCustomerList.jsp">고객관리</a>
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">주문관리</a>
+						<a class="dropdown-item" href="<%=request.getContextPath()%>/notice/noticeList.jsp">공지관리</a>
+					</div>
+				</li>
             	 <%
 	              }
 	              %>
             	<!-- 카테고리 -->
-            	
             	<li class="nav-item dropdown">
             		<a class="nav-link dropdown-toggle" href="<%=request.getContextPath()%>/index.jsp" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CATEGORY</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown04">

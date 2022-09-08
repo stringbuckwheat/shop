@@ -22,17 +22,29 @@ if(request.getParameter("currentPage") != null){
 }
 
 GoodsService goodsService = new GoodsService();
-// catego
-List<Map<String, Object>> customerGoodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy, 0);
+List<Map<String, Object>> goodsList = null; // 상품 리스트를 받을 변수
+String title = null;
 
-System.out.println("jsp: " + customerGoodsList);
-System.out.println("customerGoodsList.size: " + customerGoodsList.size());
-// 분리하면 servlet / 연결기술 forward(request, response) - include와 비슷 / jsp
+// 검색어가 있는지
+if(request.getParameter("search") != null){
+	String search = request.getParameter("search");
+	goodsList = goodsService.getGoodsListBySearch(search);
+	title = "\""+ search + "\"에 대한 검색 결과";
+} else {
+	// 검색어가 없으면 전체 상품 리스트
+	// parameter: rowPerPage, currentPage, sortBy, categoryId
+	// categoryId == 0 -> 전체 상품리스트 출력
+	goodsList = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, sortBy, 0);
+	System.out.println("goodsList.size: " + goodsList.size());
+	title = "전체 상품";
+}
 
-int lastPage = goodsService.getLastPage(rowPerPage, 0);
-int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
-int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
-pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
+//페이징
+	int lastPage = goodsService.getLastPage(rowPerPage, 0);
+	int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1; // 페이지 시작 넘버
+	int pageEnd = pageBegin + rowPerPage - 1; // 페이지 끝 글 구하는 공식
+	pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
+
 %>
 
 <!-- VIEW: 태그 -->
@@ -41,7 +53,7 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>customerGoodsList</title>
+	<title>index</title>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link href="<%=request.getContextPath()%>/css/loginForm.css" rel="stylesheet">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -65,8 +77,12 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 	
 	
 	<div class="container">
-    <h3 class="h3">전체 상품</h3>
+    <h3 class="h3"><%=title%></h3>
     <!-- for / if 대체 기술: custom tag(JSTL 라이브러리, EL) -->
+    <%
+    	// TODO 일단 검색어가 없을 때만 정렬, 모아보기
+    	if(request.getParameter("search") == null){
+    %>
 	<div>
 		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=popular">인기순</a> <!-- 조회수? -->
 		<a href="<%=request.getContextPath()%>/index.jsp?sortBy=sales">판매량순</a> 
@@ -81,12 +97,12 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 			if(rowPerPage == 40){
 			%>
 				<option value="20">20개 씩 보기</option>
-				<option value="40" selected=“selected”>40개 씩 보기</option>
+				<option value="40" selected>40개 씩 보기</option>
 							
 			<%
 			} else {
 			%>
-				<option value="20" selected=“selected”>20개 씩 보기</option>
+				<option value="20" selected>20개 씩 보기</option>
 				<option value="40">40개 씩 보기</option>
 			<%
 			}
@@ -95,12 +111,16 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 		<button type="submit" class="btn btn-warning">확인</button>
 	</form>
 	
+	<%
+    	}
+	%>
+	
     <div class="row">
     	<!-- 카드 -->
     	
 		<%
-		for(int i = 0; i < customerGoodsList.size(); i++){
-			Map<String, Object> m = customerGoodsList.get(i);
+		for(int i = 0; i < goodsList.size(); i++){
+			Map<String, Object> m = goodsList.get(i);
 		%>
     	
         <div class="col-md-3 col-sm-6">
@@ -146,10 +166,13 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
        %>
        <!-- here -->
     </div>
-
+    	<%
+    	// TODO 일단 검색어가 없을 때만 페이징
+    	if(request.getParameter("search") == null){
+    	%>
 		<div class="container">
 			<ul class="pagination">
-				<%	
+				<%
 				// 이전 페이징
 				if(pageBegin > rowPerPage){
 				%>
@@ -179,8 +202,11 @@ pageEnd = Math.min(pageEnd, lastPage); // 둘 중에 작은 값이 pageEnd
 				<%
 				}
 				%>
-		</ul>
-	</div>
+			</ul>
+		</div>
+		<%
+    	}
+		%>
 	</div>
 </body>
 </html>

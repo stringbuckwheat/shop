@@ -3,7 +3,6 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-System.out.println("-------------------- searchGoods.jsp");
 String search = request.getParameter("search");
 
 GoodsService goodsService = new GoodsService();

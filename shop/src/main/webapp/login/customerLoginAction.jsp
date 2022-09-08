@@ -3,8 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+System.out.println("--------------------- customerLoginAction.jsp");
+
+// 이미 로그인한 회원은 접근 불가
 if(session.getAttribute("id") != null){
-	response.sendRedirect(request.getContextPath() + "/login/customerLoginForm.jsp?errorMsg=already logined");
+	response.sendRedirect(request.getContextPath() + "/index.jsp?errorMsg=already logined");
 	return;
 }
 
@@ -20,6 +23,7 @@ customer.setCustomerPass(pw);
 System.out.println("customer: " + customer);
 
 CustomerService customerService = new CustomerService();
+// ID와 이름을 받아옴
 Customer loginCustomer = customerService.getCustomerByIdAndPw(customer);
 
 // redirect
