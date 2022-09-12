@@ -5,7 +5,7 @@ public class Review {
 	private String reviewContent;
 	private String updateDate;
 	private String createDate;
-	private int star;
+	private int rating;
 	
 	public int getOrderNo() {
 		return orderNo;
@@ -39,21 +39,18 @@ public class Review {
 		this.createDate = createDate;
 	}
 	
-	public int getStar() {
-		return star;
+	public int getRating() {
+		return rating;
 	}
 	
-	public void setStar(int star) {
-		this.star = star;
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Review [orderNo=" + orderNo + ", reviewContent=" + reviewContent + ", updateDate=" + updateDate
-				+ ", createDate=" + createDate + ", star=" + star + "]";
+				+ ", createDate=" + createDate + ", rating=" + rating + "]";
 	}
-	
-	
-	
 	
 }
